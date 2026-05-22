@@ -7,10 +7,21 @@ const GITHUB_TOKEN    = "REMOVED"; // ← Next.js pakai: process.env.NEXT_PUBLIC
 const NAV_LINKS = ["Blog", "Portfolio", "About", "Projects"];
 
 const GALLERY_ITEMS = [
-  { id:1, title:"Dashboard UI",    label:"Redesign Project, 2024", tag:"UI/UX",     accent:"#b4ff50", color:"#111", img:"../public/image/Hrd1.png"   },
-  { id:2, title:"E-Commerce App",  label:"Freelance, 2024",        tag:"Frontend",  accent:"#b4ff50", color:"#111", img:"../public/image/Hrd2.png"   },
-  { id:3, title:"Design System",   label:"Open Source, 2023",      tag:"Design",    accent:"#f5c842", color:"#111", img:"../public/image/Hrd4.png"      },
-  { id:5, title:"Portfolio v1",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Hrd5.png"   },
+  { id:1, title:"Dashboard UI",    label:"Redesign Project, 2024", tag:"UI/UX",     accent:"#b4ff50", color:"#111", img:"../public/image/Hrd1.png"},
+  { id:2, title:"E-Commerce App",  label:"Freelance, 2024",        tag:"Frontend",  accent:"#b4ff50", color:"#111", img:"../public/image/Hrd2.png"},
+  { id:3, title:"Design System",   label:"Open Source, 2023",      tag:"Design",    accent:"#f5c842", color:"#111", img:"../public/image/Hrd4.png"},
+  { id:4, title:"Portfolio v1",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Hrd5.png"},
+  { id:5, title:"Portfolio v2",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Monitoring1.png"},
+  { id:6, title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Monitoring2.png"},
+  { id:7, title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Monitoring3.png"},
+  { id:8, title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Chat1.png"},
+  { id:9, title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Chat2.png"},
+  { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/Chat3.png"},
+  { id:6, title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet1.png"},
+  { id:7, title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet2.png"},
+  { id:8, title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet3.png"},
+  { id:9, title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet4.png"},
+  { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",       accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet5.png"},
 ];
 
 const EXPERIENCES = [
@@ -19,12 +30,12 @@ const EXPERIENCES = [
 ];
 
 const BIO_LINES = [
-  { text:"ABOUT ME",            color:"#ffffff", size:"clamp(1.2rem,2.5vw,2rem)",     weight:900, italic:false, blockBg:"#ffffff", spacing:"0.08em" },
-  { text:"I am a passionate",   color:"#f5f0e8", size:"clamp(1.5rem,3.5vw,2.8rem)",   weight:800, italic:false, blockBg:"#f5f0e8", spacing:"-0.02em" },
-  { text:"Software Engineer",   color:"#ffffff", size:"clamp(1.5rem,3.5vw,2.8rem)",   weight:800, italic:true,  blockBg:"#ffffff", spacing:"-0.01em" },
-  { text:"building scalable",   color:"#f5f0e8", size:"clamp(1.2rem,3vw,2.4rem)",     weight:700, italic:false, blockBg:"#f5f0e8", spacing:"-0.02em" },
-  { text:"backend architectures",color:"#f5f0e8", size:"clamp(1.2rem,3vw,2.4rem)",    weight:700, italic:false, blockBg:"#f5f0e8", spacing:"-0.02em" },
-  { text:"& automated systems", color:"#a0a0a0", size:"clamp(1rem,2vw,1.6rem)",       weight:600, italic:true,  blockBg:"#fff",    spacing:"0.02em"  },
+  { text:"ABOUT ME",            color:"#ffffff", size:"clamp(1.2rem,2.5vw,2rem)",     weight:900, italic:false, blockBg:"#b8ad9e", spacing:"0.08em" },
+  { text:"I am a passionate",   color:"#f5f0e8", size:"clamp(1.5rem,3.5vw,2.8rem)",   weight:800, italic:false, blockBg:"#b8ad9e", spacing:"-0.02em" },
+  { text:"Software Engineer",   color:"#ffffff", size:"clamp(1.5rem,3.5vw,2.8rem)",   weight:800, italic:true,  blockBg:"#b8ad9e", spacing:"-0.01em" },
+  { text:"building scalable",   color:"#f5f0e8", size:"clamp(1.2rem,3vw,2.4rem)",     weight:700, italic:false, blockBg:"#b8ad9e", spacing:"-0.02em" },
+  { text:"backend architectures",color:"#f5f0e8", size:"clamp(1.2rem,3vw,2.4rem)",    weight:700, italic:false, blockBg:"#b8ad9e", spacing:"-0.02em" },
+  { text:"& automated systems", color:"#a0a0a0", size:"clamp(1rem,2vw,1.6rem)",       weight:600, italic:true,  blockBg:"#b8ad9e",    spacing:"0.02em"  },
 ];
 
 const CONTRIB_COLORS = ["#161616","#1f3d10","#2d5e17","#4a9a28","#b4ff50"];
@@ -311,33 +322,6 @@ export default function Portfolio() {
   return (
     <div style={{ position:"fixed", inset:0, overflow:"hidden", background:"#0c0c0c", fontFamily:"'Inter',sans-serif" }}>
 
-      {/* ══ NAVBAR ══════════════════════════════════════════════ */}
-      <nav style={{
-        position:"absolute", zIndex:100,
-        top: navWide ? 0 : 16,
-        left: navWide ? 0 : "50%",
-        right: navWide ? 0 : "auto",
-        transform: navWide ? "none" : "translateX(-50%)",
-        width: navWide ? "100%" : "min(700px,90vw)",
-        display:"flex", alignItems:"center", justifyContent:"space-between",
-        padding:"14px clamp(1rem,4vw,2rem)",
-        background:"rgba(255,255,255,0.9)", backdropFilter:"blur(16px)",
-        borderRadius: navWide ? "0 0 20px 20px" : 20,
-        boxShadow: navWide ? "0 2px 24px rgba(0,0,0,0.12)" : "none",
-        transition:"all 0.6s cubic-bezier(0.4,0,0.2,1)",
-      }}>
-        <span style={{ fontWeight:800, fontSize:"1rem", color:"#111", letterSpacing:"-0.02em" }}>Nawwaf Naufal</span>
-        <div style={{ display:"flex", gap:24, alignItems:"center" }}>
-          {NAV_LINKS.map(l => (
-            <a key={l} href="#" style={{ color:"#555", fontSize:"0.85rem", fontWeight:500, textDecoration:"none" }}>{l}</a>
-          ))}
-        </div>
-        <a href="#" style={{ display:"flex", alignItems:"center", gap:6, background:"#111", color:"#fff", fontSize:"0.8rem", fontWeight:600, padding:"9px 18px", borderRadius:99, textDecoration:"none" }}>
-          Inquiry/Collab
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </a>
-      </nav>
-
       {/* ══ TALL BACKGROUND PANEL — 500vh ═══════════════════════ */}
       <div style={{
         position:"absolute", left:0, right:0, top:0,
@@ -395,161 +379,356 @@ export default function Portfolio() {
                   <div style={{ display:"flex", alignItems:"center", gap:16, transform:`translateY(${textY}%)`, willChange:"transform" }}>
                     <span style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#ffffff", fontWeight:700 }}>About Me</span>
                     <div style={{ width:48, height:1, background:"#404040" }}/>
-                    <span style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#888", fontWeight:600 }}>Since 2019</span>
+                    <span style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#888", fontWeight:600 }}>Teknik Informatika</span>
                   </div>
-                  <div style={{ position:"absolute", inset:0, background:"#b5e020", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
                 </>
               );
             })()}
           </div>
 
           <div style={{
-            position:"relative", zIndex:2,
+  position:"relative", zIndex:2,
+  width:"100%",
+  display:"flex", flexDirection:"column",
+  alignItems:"center",
+  gap:0,
+  textAlign:"center",
+}}>
+  {[
+    { text:"BUILD DIGITAL EXPERIENCES,", size:"clamp(3rem,7vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+{ text:"AND <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;color:#b8ad9e;'>Scalable</span> SYSTEMS,", size:"clamp(3rem,7vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+{ text:"PASSIONATE ABOUT <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;letter-spacing:0.05em;color:#b8ad9e;'>Backend</span> ENGINEERING.", size:"clamp(3rem,7vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+{ text:"DISTRIBUTED SYSTEMS", size:"clamp(3rem,8.5vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+{ text:"AND CREATING <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;color:#b8ad9e;'>Impactful</span> PRODUCTS", size:"clamp(2rem,8.5vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+{ text:"ALWAYS LEARNING.", size:"clamp(3rem,7vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+{ text:"ALWAYS <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;color:#b8ad9e;'>Building.</span>", size:"clamp(3rem,7vw,5rem)", color:"#ffffff", blockBg:"#b8ad9e" },
+  ].map((line, i) => {
+    const { blockX, textY } = blockReveal(i);
+    return (
+      <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1, width:"100%" }}>
+        <span
+          dangerouslySetInnerHTML={{ __html: line.text }}
+          style={{
+            display:"block",
             width:"100%",
-            display:"flex", flexDirection:"column",
-            alignItems:"center",
-            gap:0,
-            textAlign:"center",
-          }}>
-            {[
-              { text:"REDEFINING LIMITS,",           size:"clamp(3.2rem,8.5vw,7.5rem)",  color:"#e8e0cc", blockBg:"#b5e020" },
-              { text:"FIGHTING FOR WINS,",           size:"clamp(3.2rem,8.5vw,7.5rem)",  color:"#e8e0cc", blockBg:"#e8e0cc" },
-              { text:"BRINGING IT ALL IN ALL WAYS.", size:"clamp(2rem,5.2vw,4.6rem)",    color:"#e8e0cc", blockBg:"#b5e020" },
-              { text:"DEFINING A LEGACY",            size:"clamp(3.2rem,8.5vw,7.5rem)",  color:"#e8e0cc", blockBg:"#e8e0cc" },
-              { text:"IN FORMULA 1",                 size:"clamp(3.2rem,8.5vw,7.5rem)",  color:"#e8e0cc", blockBg:"#b5e020" },
-              { text:"ON AND OFF THE TRACK.",        size:"clamp(2.6rem,7vw,6.2rem)",    color:"#e8e0cc", blockBg:"#e8e0cc" },
-            ].map((line, i) => {
-              const { blockX, textY } = blockReveal(i);
-              return (
-                <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1, width:"100%" }}>
-                  <span style={{
-                    display:"block",
-                    width:"100%",
-                    fontSize: line.size,
-                    fontWeight:900,
-                    color: line.color,
-                    letterSpacing:"-0.01em",
-                    textTransform:"uppercase",
-                    fontFamily:"'Barlow Condensed','Impact',sans-serif",
-                    lineHeight:1.1,
-                    transform:`translateY(${textY}%)`,
-                    willChange:"transform",
-                  }}>{line.text}</span>
-                  <span style={{
-                    position:"absolute", top:0, bottom:0,
-                    left:"-5%", right:"-5%",
-                    background:line.blockBg,
-                    transform:`translateX(${blockX}%)`,
-                    willChange:"transform", zIndex:3
-                  }}/>
-                </span>
-              );
-            })}
-          </div>
+            fontSize: line.size,
+            fontWeight:300,
+            color: line.color,
+            letterSpacing:"-0.01em",
+            textTransform:"uppercase",
+            fontFamily:"'Bebas Neue', sans-serif",
+            lineHeight:1.1,
+            transform:`translateY(${textY}%)`,
+            willChange:"transform",
+          }}
+        />
+        <span style={{
+          position:"absolute", top:0, bottom:0,
+          left:"-5%", right:"-5%",
+          background:line.blockBg,
+          transform:`translateX(${blockX}%)`,
+          willChange:"transform", zIndex:3
+        }}/>
+      </span>
+    );
+  })}
+</div>
 
-          <div style={{ marginTop:"2rem", width:1, height:44, background:"linear-gradient(to bottom,#333,transparent)", opacity:bottomBarOpacity }}/>
+<div style={{ marginTop:"2rem", width:1, height:44, background:"linear-gradient(to bottom,#333,transparent)", opacity:bottomBarOpacity }}/>
         </div>
 
         {/* ── SCENE 4 — GALLERY (200–300vh) ───────────────────── */}
-        <div style={{ height:"100vh", background:galleryBg, overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center" }}>
-          {(() => {
-            const t = Math.min(1, p4 / Math.max(1, N-1));
-            const labelColor  = `rgb(${Math.round(58+120*t)},${Math.round(58+100*t)},${Math.round(58+60*t)})`;
-            const lineColor   = `rgba(${Math.round(32+140*t)},${Math.round(32+120*t)},${Math.round(32+100*t)},1)`;
+    
+       {(() => {
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-            const SCATTER = [
-              { top:"18vh",  left:"2vw",  w:"35vw", speed:1.0,  z:3, rotate:1  },
-              { top:"56vh",  left:"30vw", w:"35vw", speed:1.0,  z:2, rotate:1  },
-              { top:"18vh",  left:"43vw", w:"35vw", speed:1.0,  z:4, rotate:1  },
-              { top:"56vh",  left:"71vw", w:"35vw", speed:1.0,  z:2, rotate:-1 },
-            ];
+  return (
+    <div style={{
+      height: isMobile ? "auto" : "100vh",
+      minHeight: "100vh",
+      background: galleryBg,
+      overflow: isMobile ? "visible" : "hidden",
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: isMobile ? "flex-start" : "center"
+    }}>
+      {(() => {
+        const t = Math.min(1, p4 / Math.max(1, N-1));
+        const labelColor = `rgb(${Math.round(58+120*t)},${Math.round(58+100*t)},${Math.round(58+60*t)})`;
+        const lineColor  = `rgba(${Math.round(32+140*t)},${Math.round(32+120*t)},${Math.round(32+100*t)},1)`;
 
-            const scrollShift = p4 * 80;
+        const SCATTER = [
+          { top:"18vh", left:"2vw",   w:"35vw", speed:1.0, z:3, rotate:1  },
+          { top:"56vh", left:"34vw",  w:"35vw", speed:1.0, z:2, rotate:1  },
+          { top:"18vh", left:"39vw",  w:"35vw", speed:1.0, z:4, rotate:1  },
+          { top:"56vh", left:"71vw",  w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"18vh", left:"120vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"56vh", left:"140vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"56vh", left:"176vw", w:"35vw", speed:1.0, z:2, rotate:0  },
+          { top:"18vh", left:"230vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"36vh", left:"268vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"56vh", left:"306vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"18vh", left:"360vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"36vh", left:"390vw", w:"35vw", speed:1.0, z:2, rotate:0  },
+          { top:"56vh", left:"423vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"18vh", left:"463vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+          { top:"49vh", left:"496vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+        ];
 
-            return (<>
-              <div style={{ position:"absolute", top:"clamp(80px,8vh,80px)", left:"clamp(2rem,6vw,5rem)", right:"clamp(2rem,6vw,5rem)", display:"flex", alignItems:"center", justifyContent:"space-between", zIndex:10 }}>
-                <div style={{ display:"flex", alignItems:"center", gap:16 }}>
-                  <span style={{ fontSize:"0.6rem", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Selected Work</span>
-                  <div style={{ width:48, height:1, background:lineColor }}/>
-                  <span style={{ fontSize:"0.6rem", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>2023 — 2024</span>
-                </div>
+        const PROJECTS = [
+          {
+            title: "Program HRD",
+            year: "Built in 2024",
+            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            stack: ["React JS", "Express", "MySQL", "Bootstrap"],
+            imageIndexes: [0, 1, 2, 3],
+            infoLeft: "2vw", infoTop: "57vh",
+            yearLeft: "80vw", yearTop: "53vh",
+          },
+          {
+            title: "Sistem Monitoring Inventori",
+            year: "Built in 2024",
+            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            stack: ["React JS", "Express", "MySQL", "Bootstrap"],
+            imageIndexes: [4, 5, 6],
+            infoLeft: "160vw", infoTop: "29vh",
+            yearLeft: null, yearTop: null,
+          },
+          {
+            title: "Sistem Monitoring Inventori 2",
+            year: null,
+            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            stack: ["React JS", "Express", "MySQL", "Bootstrap"],
+            imageIndexes: [7, 8, 9],
+            infoLeft: "231vw", infoTop: "56vh",
+            yearLeft: null, yearTop: null,
+          },
+          {
+            title: "Rest API VidioMeet",
+            year: null,
+            desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            stack: ["Node JS", "Express", "MySQL", "Postman"],
+            imageIndexes: [10, 11, 12, 13, 14],
+            infoLeft: "430vw", infoTop: "32vh",
+            yearLeft: null, yearTop: null,
+          },
+        ];
+
+        const PROJECT_INFO_BY_INDEX = {};
+        PROJECTS.forEach(proj => {
+          proj.imageIndexes.forEach((imgIdx, posInGroup) => {
+            PROJECT_INFO_BY_INDEX[imgIdx] = {
+              ...proj,
+              isFirst: posInGroup === 0,
+            };
+          });
+        });
+
+        const scrollShift = p4 * 31;
+
+        const StackBadges = ({ stack }) => (
+          <div style={{ display:"flex", gap:6, marginTop:10, flexWrap:"wrap" }}>
+            {stack.map(tech => (
+              <span key={tech} style={{
+                fontSize: "clamp(0.4rem, 0.6vw, 0.6rem)",
+                padding: "3px 8px",
+                border: "0.5px solid rgba(255,255,255,0.3)",
+                color: "rgba(255,255,255,0.7)",
+                borderRadius: 4,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
+              }}>
+                {tech}
+              </span>
+            ))}
+          </div>
+        );
+
+        // ══════════════════════════════════════════
+        // MOBILE LAYOUT
+        // ══════════════════════════════════════════
+        if (isMobile) {
+          return (
+            <div style={{ padding: "80px 20px 60px", boxSizing: "border-box" }}>
+
+              {/* Header */}
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:40 }}>
+                <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Selected Work</span>
+                <div style={{ flex:1, height:1, background:lineColor }}/>
+                <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>2023 — 2024</span>
               </div>
 
-              {GALLERY_ITEMS.slice(0,4).map((item, i) => {
-                const s = SCATTER[i];
-                const shiftX = scrollShift * s.speed;
-                const cardHeight = "36vh";
+              {/* Card per proyek */}
+              {PROJECTS.map((proj, projIdx) => (
+                <div key={projIdx} style={{ marginBottom: 56 }}>
 
-                return (
-                  <div key={item.id}>
-                    <div style={{
-                      position:"absolute",
-                      top: s.top,
-                      left: `calc(${s.left} - ${shiftX}vw)`,
-                      width: s.w,
-                      height: cardHeight,
-                      overflow:"hidden",
-                      willChange:"left",
-                      zIndex: s.z,
-                      transform: `rotate(${s.rotate}deg)`,
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
-                    }}>
-                      {item.img
-                        ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"contain", objectPosition:"top left", display:"block" }}/>
-                        : <div style={{ width:"100%", height:"100%", background:"#111" }}/>
-                      }
-                    </div>
-
-                    {i === 0 && (
-                      <div style={{
-                        position:"absolute",
-                        top: `calc(${s.top} + 38vh + 12px)`,
-                        left: `calc(${s.left} - ${shiftX}vw)`,
-                        width: s.w,
-                        willChange:"left",
-                        zIndex: s.z,
-                      }}>
-                        <p style={{
-                          margin: 0,
-                          fontSize: "clamp(0.6rem,1vw,0.72rem)",
-                          color: t > 0.5 ? "#888" : "#666",
-                          lineHeight: 1.7,
-                          letterSpacing: "0.01em",
+                  {/* Grid gambar 2 kolom */}
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: proj.imageIndexes.length === 1 ? "1fr" : "1fr 1fr",
+                    gap: 8,
+                    marginBottom: 16,
+                  }}>
+                    {proj.imageIndexes.map(imgIdx => {
+                      const item = GALLERY_ITEMS[imgIdx];
+                      if (!item) return null;
+                      return (
+                        <div key={imgIdx} style={{
+                          width: "100%",
+                          aspectRatio: "16/10",
+                          overflow: "hidden",
+                          borderRadius: 6,
+                          boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
                         }}>
-                          Aplikasi HRD berbasis web untuk mempermudah<br/>
-                          manajemen data karyawan (recruitment,<br/>
-                          attendance, performance dll.)
-                        </p>
-                      </div>
-                    )}
-                    {i === 3 && (
-                      <div style={{
-                        position:"absolute",
-                        top: `calc(${s.top} - 32px)`,
-                        left: `calc(${s.left} - ${shiftX}vw + 13vw)`,
-                        width: s.w,
-                        willChange:"left",
-                        zIndex: s.z,
-                      }}>
-                        <p style={{
-                          margin: 0,
-                          fontSize: "clamp(0.55rem,0.9vw,0.68rem)",
-                          color: t > 0.5 ? "#888" : "#555",
-                          lineHeight: 1.6,
-                          letterSpacing: "0.04em",
-                          textTransform: "uppercase",
-                          fontWeight: 600,
-                        }}>
-                          Built with React JS · Express · MySQL · Bootstrap
-                        </p>
-                      </div>
-                    )}
+                          {item.img
+                            ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"top left", display:"block" }}/>
+                            : <div style={{ width:"100%", height:"100%", background:"#1a1a1a" }}/>
+                          }
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </>);
-          })()}
-        </div>
+
+                  {/* Judul */}
+                  <p style={{
+                    margin: "0 0 4px",
+                    fontSize: "clamp(1rem, 5vw, 1.3rem)",
+                    color: "#ffffff",
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontWeight: 700,
+                    letterSpacing: "0.05em",
+                  }}>
+                    {proj.title}
+                  </p>
+
+                  {/* Tahun */}
+                  {proj.year && (
+                    <p style={{ margin:"0 0 8px", fontSize:"0.6rem", color:"rgba(255,255,255,0.4)", letterSpacing:"0.1em" }}>
+                      {proj.year}
+                    </p>
+                  )}
+
+                  {/* Deskripsi */}
+                  <p style={{
+                    margin: 0,
+                    fontSize: "clamp(0.7rem, 3.5vw, 0.85rem)",
+                    color: "rgba(255,255,255,0.65)",
+                    lineHeight: 1.8,
+                    letterSpacing: "0.02em",
+                  }}>
+                    {proj.desc}
+                  </p>
+
+                  <StackBadges stack={proj.stack} />
+
+                  {/* Divider */}
+                  {projIdx < PROJECTS.length - 1 && (
+                    <div style={{ marginTop:32, height:1, background:"rgba(255,255,255,0.08)" }}/>
+                  )}
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        // ══════════════════════════════════════════
+        // DESKTOP LAYOUT
+        // ══════════════════════════════════════════
+        const InfoCard = ({ info, shiftX }) => (
+          <div style={{
+            position: "absolute",
+            top: info.infoTop,
+            left: `calc(${info.infoLeft} - ${shiftX}vw)`,
+            width: "clamp(160px, 28vw, 320px)",
+            zIndex: 999,
+          }}>
+            <p style={{
+              margin: "0 0 8px",
+              fontSize: "clamp(0.65rem, 1vw, 0.85rem)",
+              color: "#ffffff",
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontWeight: 700,
+              letterSpacing: "0.05em",
+            }}>
+              {info.title}
+            </p>
+            <p style={{
+              margin: 0,
+              fontSize: "clamp(0.55rem, 0.8vw, 0.7rem)",
+              color: "rgba(255,255,255,0.65)",
+              lineHeight: 1.75,
+              letterSpacing: "0.02em",
+            }}>
+              {info.desc}
+            </p>
+            <StackBadges stack={info.stack} />
+          </div>
+        );
+
+        return (<>
+          {/* Header desktop */}
+          <div style={{ position:"absolute", top:"clamp(60px,8vh,80px)", left:"clamp(1.5rem,6vw,5rem)", right:"clamp(1.5rem,6vw,5rem)", display:"flex", alignItems:"center", justifyContent:"space-between", zIndex:10 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:"clamp(8px,1vw,16px)" }}>
+              <span style={{ fontSize:"clamp(0.5rem,0.6vw,0.6rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Selected Work</span>
+              <div style={{ width:"clamp(24px,3vw,48px)", height:1, background:lineColor }}/>
+              <span style={{ fontSize:"clamp(0.5rem,0.6vw,0.6rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>2023 — 2024</span>
+            </div>
+          </div>
+
+          {GALLERY_ITEMS.slice(0,15).map((item, i) => {
+            const s = SCATTER[i];
+            const shiftX = scrollShift * s.speed;
+            const infoData = PROJECT_INFO_BY_INDEX[i];
+
+            return (
+              <div key={item.id}>
+                {/* Gambar */}
+                <div style={{
+                  position: "absolute",
+                  top: s.top,
+                  left: `calc(${s.left} - ${shiftX}vw)`,
+                  width: s.w,
+                  height: "35vh",
+                  overflow: "hidden",
+                  willChange: "left",
+                  zIndex: s.z,
+                  transform: `rotate(${s.rotate}deg)`,
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
+                }}>
+                  {item.img
+                    ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"contain", objectPosition:"top left", display:"block" }}/>
+                    : <div style={{ width:"100%", height:"100%", background:"#111" }}/>
+                  }
+                </div>
+
+                {/* Info card — hanya gambar pertama per proyek */}
+                {infoData?.isFirst && <InfoCard info={infoData} shiftX={shiftX} />}
+
+                {/* Year label */}
+                {infoData?.isFirst && infoData?.year && (
+                  <p style={{
+                    position: "absolute",
+                    top: infoData.yearTop,
+                    left: `calc(${infoData.yearLeft} - ${shiftX}vw)`,
+                    fontSize: "clamp(0.5rem, 0.65vw, 0.65rem)",
+                    color: "rgba(255,255,255,0.45)",
+                    letterSpacing: "0.08em",
+                    margin: 0,
+                    zIndex: 999,
+                  }}>
+                    {infoData.year}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </>);
+      })()}
+    </div>
+  );
+})()}
 
         {/* ── SCENE 5 — EXPERIENCE (300–400vh) ────────────────── */}
         <div style={{ height:"100vh", background:"#f5f0e8", overflow:"hidden", position:"relative", display:"flex", alignItems:"center", justifyContent:"center" }}>
@@ -584,15 +763,36 @@ export default function Portfolio() {
           <div style={{ display:"flex", gap:"4rem", alignItems:"flex-start", justifyContent:"center" }}>
             {/* Kiri */}
             <div style={{ textAlign:"right", width:300, overflow:"visible" ,transform:imgSlideLeft}}>
-              {[["OFF","#d0c8b8"],["INTERN","#d0c8b8"]].map(([text, bg], i) => {
-                const { blockX, textY } = blockRevealExp(i);
-                return (
-                  <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
-                    <span style={{ display:"block", fontFamily:"'Georgia',serif", fontSize:"4rem", fontWeight:900, letterSpacing:"-0.03em", color:"#111", lineHeight:1, transform:`translateY(${textY}%)`, willChange:"transform" }}>{text}</span>
-                    <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:bg, transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
-                  </span>
-                );
-              })}
+              {[
+  ["OFF",    "'Instrument Serif', serif",  400, "5rem"],
+  ["INTERN", "'Bebas Neue', sans-serif",            400, "6rem"],
+].map(([text, font, weight, size], i) => {
+  const { blockX, textY } = blockRevealExp(i);
+  return (
+    <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
+      <span style={{ 
+        display: "block", 
+        fontFamily: font,        
+        fontSize: size,          
+        fontWeight: weight,      
+        letterSpacing: "-0.03em", 
+        color: "#111", 
+        lineHeight: 1, 
+        transform: `translateY(${textY}%)`, 
+        willChange: "transform" 
+      }}>
+        {text}
+      </span>
+      <span style={{ 
+        position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", 
+        background:"#d0c8b8", 
+        transform:`translateX(${blockX}%)`, 
+        willChange:"transform", 
+        zIndex:3 
+      }}/>
+    </span>
+  );
+})}
               {(() => {
                 const { textY } = blockRevealExp(2);
                 return (
@@ -607,15 +807,36 @@ export default function Portfolio() {
 
             {/* Kanan */}
             <div style={{ textAlign:"left", width:300 ,transform:imgSlideRight}}>
-              {[["ON","#b4ff50"],["INTERN","#b4ff50"]].map(([text, bg], i) => {
-                const { blockX, textY } = blockRevealExp(i);
-                return (
-                  <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
-                    <span style={{ display:"block", fontFamily:"'Georgia',serif", fontSize:"4rem", fontWeight:900, letterSpacing:"-0.03em", color:"#111", lineHeight:1, transform:`translateY(${textY}%)`, willChange:"transform" }}>{text}</span>
-                    <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:bg, transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
-                  </span>
-                );
-              })}
+              {[
+  ["ON",     "'Instrument Serif', serif", 400, "5rem"],
+  ["INTERN", "'Bebas Neue', sans-serif",  400, "6rem"],
+].map(([text, font, weight, size], i) => {
+  const { blockX, textY } = blockRevealExp(i);
+  return (
+    <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
+      <span style={{ 
+        display: "block", 
+        fontFamily: font,
+        fontSize: size, 
+        fontWeight: weight, 
+        letterSpacing: "-0.03em", 
+        color: "#111", 
+        lineHeight: 1, 
+        transform: `translateY(${textY}%)`, 
+        willChange: "transform" 
+      }}>
+        {text}
+      </span>
+      <span style={{ 
+        position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", 
+        background:"#b4ff50", 
+        transform:`translateX(${blockX}%)`, 
+        willChange:"transform", 
+        zIndex:3 
+      }}/>
+    </span>
+  );
+})}
               {(() => {
                 const { textY } = blockRevealExp(2);
                 return (
