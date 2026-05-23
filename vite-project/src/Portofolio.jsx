@@ -7,21 +7,21 @@ const GITHUB_TOKEN    = "REMOVED";
 const NAV_LINKS = ["Blog", "Portfolio", "About", "Projects"];
 
 const GALLERY_ITEMS = [
-  { id:1,  title:"Dashboard UI",    label:"Redesign Project, 2024", tag:"UI/UX",    accent:"#b4ff50", color:"#111", img:"../public/image/Hrd1.png"},
-  { id:2,  title:"E-Commerce App",  label:"Freelance, 2024",        tag:"Frontend", accent:"#b4ff50", color:"#111", img:"../public/image/Hrd2.png"},
-  { id:3,  title:"Design System",   label:"Open Source, 2023",      tag:"Design",   accent:"#f5c842", color:"#111", img:"../public/image/Hrd4.png"},
-  { id:4,  title:"Portfolio v1",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Hrd5.png"},
-  { id:5,  title:"Portfolio v2",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Monitoring1.png"},
-  { id:6,  title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Monitoring2.png"},
-  { id:7,  title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Monitoring3.png"},
-  { id:8,  title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Chat1.png"},
-  { id:9,  title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Chat2.png"},
-  { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/Chat3.png"},
-  { id:6,  title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet1.png"},
-  { id:7,  title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet2.png"},
-  { id:8,  title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet3.png"},
-  { id:9,  title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet4.png"},
-  { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"../public/image/VidioMeet5.png"},
+  { id:1,  title:"Dashboard UI",    label:"Redesign Project, 2024", tag:"UI/UX",    accent:"#b4ff50", color:"#111", img:"image/Hrd1.png"},
+  { id:2,  title:"E-Commerce App",  label:"Freelance, 2024",        tag:"Frontend", accent:"#b4ff50", color:"#111", img:"/image/Hrd2.png"},
+  { id:3,  title:"Design System",   label:"Open Source, 2023",      tag:"Design",   accent:"#f5c842", color:"#111", img:"/image/Hrd4.png"},
+  { id:4,  title:"Portfolio v1",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Hrd5.png"},
+  { id:5,  title:"Portfolio v2",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Monitoring1.png"},
+  { id:6,  title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Monitoring2.png"},
+  { id:7,  title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Monitoring3.png"},
+  { id:8,  title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat1.png"},
+  { id:9,  title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat2.png"},
+  { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat3.png"},
+  { id:6,  title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet1.png"},
+  { id:7,  title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet2.png"},
+  { id:8,  title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet3.png"},
+  { id:9,  title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet4.png"},
+  { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet5.png"},
 ];
 
 const EXPERIENCES = [
