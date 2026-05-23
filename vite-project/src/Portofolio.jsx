@@ -110,12 +110,102 @@ async function fetchGitHubContributions(username, token) {
   return json.data.user.contributionsCollection.contributionCalendar;
 }
 
+// ─── MOBILE SCENE 3 (block reveal, dipicu IntersectionObserver) ───────────────
+function MobileScene3() {
+  const ref = useRef(null);
+  const [ap, setAp] = useState(0);
+  const rafRef = useRef(null);
+  const startRef = useRef(null);
+  const played = useRef(false);
+  const DUR = 1600;
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !played.current) {
+        played.current = true;
+        startRef.current = performance.now();
+        const tick = (now) => {
+          const raw = Math.min(1, (now - startRef.current) / DUR);
+          setAp(raw);
+          if (raw < 1) rafRef.current = requestAnimationFrame(tick);
+        };
+        rafRef.current = requestAnimationFrame(tick);
+        obs.disconnect();
+      }
+    }, { threshold: 0.15 });
+    if (ref.current) obs.observe(ref.current);
+    return () => { obs.disconnect(); cancelAnimationFrame(rafRef.current); };
+  }, []);
+
+  const LINES = [
+    { html: "BUILD DIGITAL EXPERIENCES," },
+    { html: "AND <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;color:#b8ad9e;'>Scalable</span> SYSTEMS," },
+    { html: "PASSIONATE ABOUT <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;letter-spacing:0.05em;color:#b8ad9e;'>Backend</span> ENGINEERING." },
+    { html: "DISTRIBUTED SYSTEMS" },
+    { html: "AND CREATING <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;color:#b8ad9e;'>Impactful</span> PRODUCTS" },
+    { html: "ALWAYS LEARNING." },
+    { html: "ALWAYS <span style='font-family:\"Bricolage Grotesque\",sans-serif;font-weight:600;color:#b8ad9e;'>Building.</span>" },
+  ];
+
+  function blockReveal(i) {
+    const STAGGER = 0.11;
+    const raw = Math.max(0, ap - i * STAGGER);
+    const clamped = Math.min(1, raw * (LINES.length * 1.2));
+    const p1 = Math.min(1, clamped * 2.08);
+    const p2 = Math.min(1, Math.max(0, clamped * 2.08 - 1.15));
+    const e = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+    return {
+      blockX: p2 > 0 ? e(p2)*100 : -100 + e(p1)*100,
+      textY:  p2 > 0 ? 105 - e(p2)*105 : 105,
+    };
+  }
+
+  return (
+    <div ref={ref} style={{
+      minHeight: "55vh", background:"#0f0f0f",
+      display:"flex", flexDirection:"column",
+      alignItems:"center", justifyContent:"center",
+      padding:"40px 24px 60px", overflow:"hidden", position:"relative"
+    }}>
+      {LINES.map((line, i) => {
+        const { blockX, textY } = blockReveal(i);
+        return (
+          <span key={i} style={{
+            display:"block", overflow:"hidden",
+            position:"relative", lineHeight:1.1,
+            width:"100%", textAlign:"center"
+          }}>
+            <span
+              dangerouslySetInnerHTML={{ __html: line.html }}
+              style={{
+                display:"block", width:"100%",
+                fontSize:"clamp(1.6rem,7vw,3.5rem)",
+                fontWeight:300, color:"#ffffff",
+                letterSpacing:"-0.01em", textTransform:"uppercase",
+                fontFamily:"'Bebas Neue', sans-serif", lineHeight:1.1,
+                transform:`translateY(${textY}%)`, willChange:"transform"
+              }}
+            />
+            <span style={{
+              position:"absolute", top:0, bottom:0,
+              left:"-5%", right:"-5%", background:"#b8ad9e",
+              transform:`translateX(${blockX}%)`,
+              willChange:"transform", zIndex:3
+            }}/>
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── KOMPONEN UTAMA ───────────────────────────────────────────────────────────
 export default function Portfolio() {
   const rawRef    = useRef(0);
   const rafRef    = useRef(null);
   const smoothRef = useRef(0);
   const [p, setP] = useState(0);
+  const [scrollYMobile, setScrollYMobile] = useState(0);
 
   const scene3PlayedRef = useRef(false);
   const animP3Ref  = useRef(0);
@@ -136,7 +226,6 @@ export default function Portfolio() {
   const [githubLoading, setGithubLoading] = useState(true);
   const [githubError,   setGithubError]   = useState(null);
 
-  // ── FIX: isMobile sebagai state reaktif ──────────────────────
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
@@ -188,7 +277,6 @@ export default function Portfolio() {
     rafRef.current = requestAnimationFrame(tick);
 
     const onWheel = e => {
-      // FIX: di mobile (scene 4), biarkan native scroll — skip custom scroll
       if (window.innerWidth < 768) return;
       e.preventDefault();
       const d = Math.max(-80, Math.min(80, e.deltaY)) / 900;
@@ -199,16 +287,29 @@ export default function Portfolio() {
     const onTS = e => { ty = e.touches[0].clientY; };
 
     const onTM = e => {
-      // FIX: di mobile, skip semua custom scroll — biarkan native scroll
       if (window.innerWidth < 768) return;
       const d = (ty - e.touches[0].clientY) / 400;
       rawRef.current = Math.max(0, Math.min(TOTAL, rawRef.current + d));
       ty = e.touches[0].clientY;
     };
 
+    const onScroll = () => {
+      if (window.innerWidth < 768) {
+        const vh = window.innerHeight;
+        const currentScroll = window.scrollY;
+        setScrollYMobile(currentScroll);
+        // Map scrollY from 0 to 1.2 * vh (60vh zoom out + 60vh scroll out) to rawRef.current from 0 to 2
+        rawRef.current = Math.min(2, Math.max(0, (currentScroll / (1.2 * vh)) * 2));
+      }
+    };
+
+    // Initialize in case the page is already scrolled on mount
+    onScroll();
+
     window.addEventListener("wheel",      onWheel, { passive: false });
     window.addEventListener("touchstart", onTS,    { passive: true  });
     window.addEventListener("touchmove",  onTM,    { passive: true  });
+    window.addEventListener("scroll",     onScroll, { passive: true  });
 
     return () => {
       cancelAnimationFrame(rafRef.current);
@@ -217,6 +318,7 @@ export default function Portfolio() {
       window.removeEventListener("wheel",      onWheel);
       window.removeEventListener("touchstart", onTS);
       window.removeEventListener("touchmove",  onTM);
+      window.removeEventListener("scroll",     onScroll);
     };
   }, []);
 
@@ -242,7 +344,15 @@ export default function Portfolio() {
       .finally(() => setGithubLoading(false));
   }, []);
 
+  const switchThreshold = typeof window !== "undefined" ? 0.6 * window.innerHeight : 0;
+  const scene2HeightMobile = typeof window !== "undefined" ? 0.75 * window.innerHeight : 0;
+  const isFixedMobile = isMobile && scrollYMobile < switchThreshold;
   const p1  = ease(Math.min(1, Math.max(0, p)));
+  const vh = typeof window !== "undefined" ? window.innerHeight : 800;
+  const cardCenterAbsolute = switchThreshold + 0.4 * vh;
+  const marqueeFixedTop = `calc(${(50 - p1 * 10)}% + ${(100 - p1 * 78) / 2}vh + 15px)`;
+  const marqueeAbsoluteTop = cardCenterAbsolute + 0.11 * vh + 15;
+  const unmountThreshold = 1.35 * vh;
   const p2  = ease(Math.min(1, Math.max(0, p - 1)));
   const p3e = ease(Math.min(1, Math.max(0, p - 2)));
   const p4  =      Math.min(N-1, Math.max(0, p - 3));
@@ -305,7 +415,6 @@ export default function Portfolio() {
   const contribOpacity   = Math.min(1, p6r * 3);
   const contribSlideY    = (1 - Math.min(1, p6r * 3)) * 28;
 
-  // ── Data gallery untuk scene 4 (dipakai desktop & mobile) ───
   const PROJECTS = [
     {
       title: "Program HRD",
@@ -394,74 +503,154 @@ export default function Portfolio() {
 
   return (
     <div style={{
-      // FIX: mobile pakai normal scroll, desktop pakai fixed+overflow hidden
       position: isMobile ? "relative" : "fixed",
       inset: isMobile ? undefined : 0,
       overflow: isMobile ? "auto" : "hidden",
       background:"#0c0c0c",
       fontFamily:"'Inter',sans-serif",
-      // mobile perlu min-height agar konten bisa scroll
       minHeight: isMobile ? "100vh" : undefined,
     }}>
 
-      {/* ══ MOBILE LAYOUT ════════════════════════════════════════
-          Di mobile, semua scene dirender sebagai stack vertikal
-          biasa — tidak ada fixed/transform scroll custom.
-          ════════════════════════════════════════════════════════ */}
+      {/* ══ MOBILE LAYOUT ════════════════════════════════════════ */}
       {isMobile && (
-        <div style={{ background:"#0c0c0c" }}>
+        <div style={{ background:"#0c0c0c", position: "relative" }}>
 
-          {/* Scene 1 — Hero */}
-          <div style={{ minHeight:"100vh", background:"#f5f0e8", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"0 24px", position:"relative" }}>
-            <div style={{ position:"absolute", top:"12%", left:"52%", transform:"translate(-50%,0)", width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,#f2dfa8 0%,transparent 65%)", opacity:0.5, pointerEvents:"none" }}/>
-            <p style={{ fontFamily:"'Caveat',cursive", fontSize:"clamp(1.4rem,6vw,2rem)", color:"#b0aaa0", fontWeight:400, margin:"0 0 0.1rem" }}>hi, i'm</p>
-            <div style={{ fontSize:"clamp(3rem,16vw,6rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827" }}>Muhammad</div>
-            <div style={{ fontSize:"clamp(3rem,16vw,6rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827" }}>Nawwaf</div>
-            <div style={{ fontSize:"clamp(3rem,16vw,6rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#d4cfc8", marginBottom:"clamp(0.8rem,2.5vh,1.8rem)" }}>Naufal</div>
-            <p style={{ color:"#888", fontSize:"clamp(0.85rem,3.5vw,1.05rem)", lineHeight:1.65, margin:"0 0 1.6rem", maxWidth:320 }}>
-              Backend Engineer building robust &amp;<br/>scalable digital systems.
-            </p>
-            <div style={{ display:"flex", gap:24, justifyContent:"center" }}>
-              {["Twitter","LinkedIn","GitHub"].map(s => (
-                <a key={s} href="#" style={{ fontSize:"0.6rem", color:"#aaa", textTransform:"uppercase", letterSpacing:"0.18em", textDecoration:"none" }}>{s}</a>
-              ))}
-            </div>
-          </div>
-
-          {/* Scene 2 — About */}
-          <div style={{ background:"#0f0f0f", padding:"80px 24px", position:"relative" }}>
-            <p style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.28em", color:"#555", fontWeight:600, margin:"0 0 1rem" }}>About Me</p>
-            <h2 style={{ margin:"0 0 1.5rem", fontSize:"clamp(2rem,8vw,3rem)", fontWeight:900, color:"#fff", lineHeight:1.1, letterSpacing:"-0.03em" }}>
-              Turning ideas<br/>into <span style={{ color:"#444" }}>reality.</span>
-            </h2>
-            <p style={{ color:"#888", lineHeight:1.85, fontSize:"1rem", margin:"0 0 1rem" }}>Hi! I'm <strong style={{ color:"#fff", fontWeight:700 }}>Nawwaf Naufal</strong> — a passionate backend engineer based in Indonesia.</p>
-            <p style={{ color:"#666", lineHeight:1.85, fontSize:"0.95rem", margin:"0 0 2rem" }}>Currently open for freelance collaborations, internships, and exciting new projects.</p>
-            <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
-              <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#fff", color:"#111", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>View My Work ↗</a>
-              <a href="#" style={{ display:"inline-flex", alignItems:"center", border:"1.5px solid #333", color:"#aaa", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>Download CV</a>
-            </div>
-          </div>
-
-          {/* Scene 3 — Bio block */}
-          <div style={{ background:"#0f0f0f", padding:"80px 24px", overflow:"hidden" }}>
-            {[
-              { text:"BUILD DIGITAL EXPERIENCES,", size:"clamp(2rem,8vw,3.5rem)" },
-              { text:"AND SCALABLE SYSTEMS,",       size:"clamp(2rem,8vw,3.5rem)" },
-              { text:"PASSIONATE ABOUT BACKEND ENGINEERING.", size:"clamp(1.6rem,7vw,3rem)" },
-              { text:"DISTRIBUTED SYSTEMS",          size:"clamp(2rem,8vw,3.5rem)" },
-              { text:"AND CREATING IMPACTFUL PRODUCTS", size:"clamp(1.6rem,7vw,3rem)" },
-              { text:"ALWAYS LEARNING.",              size:"clamp(2rem,8vw,3.5rem)" },
-              { text:"ALWAYS BUILDING.",              size:"clamp(2rem,8vw,3.5rem)" },
-            ].map((line, i) => (
-              <div key={i} style={{ fontSize: line.size, fontWeight:300, color:"#fff", letterSpacing:"-0.01em", textTransform:"uppercase", fontFamily:"'Bebas Neue', sans-serif", lineHeight:1.1, marginBottom:"0.2rem" }}>
-                {line.text}
+          {/* Hero & Marquee MOBILE (Only rendered during transition from Scene 1 to Scene 2) */}
+          {scrollYMobile < unmountThreshold && (
+            <>
+              {/* Hero Scene 1 Mobile */}
+              <div style={{
+                position: scrollYMobile < switchThreshold ? "fixed" : "absolute",
+                top: scrollYMobile < switchThreshold ? `${50 - p1 * 10}%` : cardCenterAbsolute,
+                left: "50%",
+                width: scrollYMobile < switchThreshold ? `${100 - p1 * 35}vw` : "65vw",
+                height: scrollYMobile < switchThreshold ? `${100 - p1 * 78}vh` : "22vh",
+                zIndex: 10,
+                pointerEvents: p1 > 0.97 ? "none" : "auto",
+                transform: "translate(-50%, -50%)",
+                borderRadius: `${heroRadius}px`,
+                transformOrigin: "center center",
+                overflow: "hidden",
+                willChange: "width, height, border-radius",
+                background: "#f5f0e8",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: p1 > 0.1 ? `0 ${p1 * 8}px ${p1 * 24}px rgba(0,0,0,0.4)` : "none",
+              }}>
+                <div style={{ position:"absolute", top:"12%", left:"52%", transform:"translate(-50%,0)", width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,#f2dfa8 0%,transparent 65%)", opacity:0.5, pointerEvents:"none" }}/>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  padding: "0 24px",
+                  transform: `translateY(${p1 * 5}px) scale(${1 - p1 * 0.52})`,
+                  opacity: 1 - p1 * 0.5,
+                  transformOrigin: "center center"
+                }}>
+                  <p style={{
+                    fontFamily:"'Caveat',cursive",
+                    fontSize:"clamp(1.4rem,6vw,2rem)",
+                    color:"#b0aaa0",
+                    fontWeight:400,
+                    margin:"0 0 0.1rem",
+                    opacity: 1 - p1 * 1.2,
+                    transition: "opacity 0.2s"
+                  }}>hi, i'm</p>
+                  <div style={{ fontSize:"clamp(3rem,16vw,6rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827" }}>Muhammad</div>
+                  <div style={{ fontSize:"clamp(3rem,16vw,6rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827" }}>Nawwaf</div>
+                  <div style={{ fontSize:"clamp(3rem,16vw,6rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#d4cfc8", marginBottom: p1 > 0.5 ? 0 : "clamp(0.8rem,2.5vh,1.8rem)" }}>Naufal</div>
+                  <p style={{
+                    color:"#888",
+                    fontSize:"clamp(0.85rem,3.5vw,1.05rem)",
+                    lineHeight:1.65,
+                    margin:"0 0 1.6rem",
+                    maxWidth:320,
+                    opacity: 1 - p1 * 1.2,
+                    transition: "opacity 0.2s"
+                  }}>
+                    Backend Engineer building robust &amp;<br/>scalable digital systems.
+                  </p>
+                  <div style={{ display:"flex", gap:24, justifyContent:"center", opacity: 1 - p1 * 1.5 }}>
+                    {["Twitter","LinkedIn","GitHub"].map(s => (
+                      <a key={s} href="#" style={{ fontSize:"0.6rem", color:"#aaa", textTransform:"uppercase", letterSpacing:"0.18em", textDecoration:"none" }}>{s}</a>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ position:"absolute", bottom:14, left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:6, opacity:p1<0.04?1:0, transition:"opacity 0.4s", pointerEvents:"none" }}>
+                  <span style={{ fontSize:"0.58rem", color:"#999", textTransform:"uppercase", letterSpacing:"0.22em" }}>scroll</span>
+                  <div style={{ width:1, height:30, background:"linear-gradient(to bottom,#aaa,transparent)" }}/>
+                </div>
               </div>
-            ))}
+
+              {/* Marquee MOBILE */}
+              {p1 > 0.15 && (
+                <div style={{
+                  position: scrollYMobile < switchThreshold ? "fixed" : "absolute",
+                  zIndex: 11,
+                  width: scrollYMobile < switchThreshold ? `${100 - p1 * 35}vw` : "65vw",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  top: scrollYMobile < switchThreshold ? marqueeFixedTop : marqueeAbsoluteTop,
+                  opacity: scrollYMobile < switchThreshold
+                    ? Math.min(1, (p1 - 0.15) / 0.35)
+                    : Math.max(0, 1 - ((scrollYMobile - switchThreshold) / (0.4 * vh)) * 3),
+                  pointerEvents: "none",
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8, paddingLeft: 4 }}>
+                    <span style={{ fontSize: "0.65rem", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "#fff" }}>Skills</span>
+                    <div style={{ flex: 1, height: "1px", background: "#333" }}/>
+                  </div>
+                  <div style={{ overflow: "hidden", borderTop: "1px solid #222", borderBottom: "1px solid #222", padding: "8px 0" }}>
+                    <div style={{ display: "flex", width: "max-content", animation: "marquee-left 30s linear infinite" }}>
+                      {["Babel","Tailwind","CSS3","React","Express","Git","HTML5","JavaScript","Jest","MongoDB","Mongoose","MySQL","Node.js","Postman","Prisma","Swagger","TypeScript","Redis","Socket.io","Docker",
+                        "Babel","Tailwind","CSS3","React","Express","Git","HTML5","JavaScript","Jest","MongoDB","Mongoose","MySQL","Node.js","Postman","Prisma","Swagger","TypeScript","Redis","Socket.io","Docker",
+                      ].map((s,i) => (
+                        <span key={i} style={{ fontSize: "0.7rem", fontWeight: 700, color: i % 5 === 2 ? "#fff" : "#aaa", letterSpacing: "0.12em", textTransform: "uppercase", padding: "0 1rem", borderRight: "1px solid #2a2a2a", whiteSpace: "nowrap", flexShrink: 0 }}>{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Spacer for Hero (Scene 1) to allow scaling scroll room */}
+          <div style={{ height: "60vh" }} />
+
+          {/* Scene 2 — About (In normal document flow, so no empty gap after it!) */}
+          <div style={{
+            background: "#0f0f0f",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "60px 24px 40px",
+            position: "relative",
+            overflow: "hidden",
+            minHeight: "auto",
+          }}>
+            <div style={{ position:"absolute", top:"-10%", right:"5%", width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,220,80,0.12) 0%,transparent 65%)", pointerEvents:"none" }}/>
+            <div style={{ position: "relative", zIndex: 2 }}>
+              <p style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.28em", color:"#555", fontWeight:600, margin:"0 0 1rem" }}>About Me</p>
+              <h2 style={{ margin:"0 0 1.5rem", fontSize:"clamp(2rem,8vw,3rem)", fontWeight:900, color:"#fff", lineHeight:1.1, letterSpacing:"-0.03em" }}>
+                Turning ideas<br/>into <span style={{ color:"#444" }}>reality.</span>
+              </h2>
+              <p style={{ color:"#888", lineHeight:1.85, fontSize:"1rem", margin:"0 0 1rem" }}>Hi! I'm <strong style={{ color:"#fff", fontWeight:700 }}>Nawwaf Naufal</strong> — a passionate backend engineer based in Indonesia.</p>
+              <p style={{ color:"#666", lineHeight:1.85, fontSize:"0.95rem", margin:"0 0 2rem" }}>Currently open for freelance collaborations, internships, and exciting new projects.</p>
+              <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
+                <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#fff", color:"#111", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>View My Work ↗</a>
+                <a href="#" style={{ display:"inline-flex", alignItems:"center", border:"1.5px solid #333", color:"#aaa", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>Download CV</a>
+              </div>
+            </div>
           </div>
 
-          {/* Scene 4 — Gallery MOBILE (scroll vertikal biasa) */}
+          {/* Scene 3 — Bio block (sama persis dengan desktop, pakai IntersectionObserver) */}
+          <MobileScene3 />
+
+          {/* Scene 4 — Gallery MOBILE */}
           <div style={{ background:"#1a1a1a", padding:"80px 20px 60px", boxSizing:"border-box" }}>
-            {/* Header */}
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:40 }}>
               <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#888", fontWeight:600 }}>Selected Work</span>
               <div style={{ flex:1, height:1, background:"#333" }}/>
@@ -567,9 +756,7 @@ export default function Portfolio() {
         </div>
       )}
 
-      {/* ══ DESKTOP LAYOUT ══════════════════════════════════════
-          Semua fixed + scroll custom seperti semula.
-          ════════════════════════════════════════════════════════ */}
+      {/* ══ DESKTOP LAYOUT ══════════════════════════════════════ */}
       {!isMobile && (
         <>
           {/* ── TALL BACKGROUND PANEL ── */}
@@ -643,9 +830,8 @@ export default function Portfolio() {
               <div style={{ marginTop:"2rem", width:1, height:44, background:"linear-gradient(to bottom,#333,transparent)", opacity:bottomBarOpacity }}/>
             </div>
 
-            {/* Scene 4 — Gallery DESKTOP (horizontal scroll) */}
+            {/* Scene 4 — Gallery DESKTOP */}
             <div style={{ height:"100vh", minHeight:"100vh", background:galleryBg, overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center" }}>
-              {/* Header */}
               <div style={{ position:"absolute", top:"clamp(60px,8vh,80px)", left:"clamp(1.5rem,6vw,5rem)", right:"clamp(1.5rem,6vw,5rem)", display:"flex", alignItems:"center", justifyContent:"space-between", zIndex:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:"clamp(8px,1vw,16px)" }}>
                   <span style={{ fontSize:"clamp(0.5rem,0.6vw,0.6rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Selected Work</span>
@@ -698,7 +884,6 @@ export default function Portfolio() {
                 <div style={{ width:40, height:1, background:"#c0b8a8" }}/>
               </div>
               <div style={{ display:"flex", gap:"4rem", alignItems:"flex-start", justifyContent:"center" }}>
-                {/* Left */}
                 <div style={{ textAlign:"right", width:300, overflow:"visible", transform:imgSlideLeft }}>
                   {[["OFF","'Instrument Serif', serif",400,"5rem"],["INTERN","'Bebas Neue', sans-serif",400,"6rem"]].map(([text,font,weight,size],i) => {
                     const { blockX, textY } = blockRevealExp(i);
@@ -720,7 +905,6 @@ export default function Portfolio() {
                     );
                   })()}
                 </div>
-                {/* Right */}
                 <div style={{ textAlign:"left", width:300, transform:imgSlideRight }}>
                   {[["ON","'Instrument Serif', serif",400,"5rem"],["INTERN","'Bebas Neue', sans-serif",400,"6rem"]].map(([text,font,weight,size],i) => {
                     const { blockX, textY } = blockRevealExp(i);
