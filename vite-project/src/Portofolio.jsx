@@ -165,8 +165,24 @@ function MobileScene3() {
       minHeight: "55vh", background:"#0f0f0f",
       display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center",
-      padding:"40px 24px 60px", overflow:"hidden", position:"relative"
+      padding:"80px 24px 60px", overflow:"hidden", position:"relative"
     }}>
+      <div style={{ position:"absolute", top:"20px", left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
+        {(() => {
+          const clamped = Math.min(1, ap * (LINES.length * 1.2) * 1.1);
+          const phase1  = Math.min(1, clamped * 2.08);
+          const phase2  = Math.min(1, Math.max(0, clamped * 2.08 - 1.15));
+          const e = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+          const textY = phase2 > 0 ? 105 - e(phase2) * 105 : 105;
+          return (
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4, transform:`translateY(${textY}%)`, willChange:"transform", textAlign:"center" }}>
+              <span style={{ fontSize:"0.58rem", textTransform:"uppercase", letterSpacing:"0.25em", color:"#ffffff", fontWeight:700, lineHeight:1.2 }}>About Me</span>
+              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.25em", color:"#888", fontWeight:600, lineHeight:1.2 }}>Teknik Informatika</span>
+            </div>
+          );
+        })()}
+      </div>
+
       {LINES.map((line, i) => {
         const { blockX, textY } = blockReveal(i);
         return (
@@ -344,15 +360,16 @@ export default function Portfolio() {
       .finally(() => setGithubLoading(false));
   }, []);
 
-  const switchThreshold = typeof window !== "undefined" ? 0.6 * window.innerHeight : 0;
+  const switchThreshold = typeof window !== "undefined" ? 0.5 * window.innerHeight : 0;
   const scene2HeightMobile = typeof window !== "undefined" ? 0.75 * window.innerHeight : 0;
   const isFixedMobile = isMobile && scrollYMobile < switchThreshold;
   const p1  = ease(Math.min(1, Math.max(0, p)));
   const vh = typeof window !== "undefined" ? window.innerHeight : 800;
-  const cardCenterAbsolute = switchThreshold + 0.4 * vh;
-  const marqueeFixedTop = `calc(${(50 - p1 * 10)}% + ${(100 - p1 * 78) / 2}vh + 15px)`;
+  const p1AtSwitch = ease(Math.min(1, Math.max(0, (switchThreshold / (1.2 * vh)) * 2)));
+const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
+  const marqueeFixedTop = `calc(${(50 - p1 * 25)}% + ${(100 - p1 * 78) / 2}vh + 15px)`;
   const marqueeAbsoluteTop = cardCenterAbsolute + 0.11 * vh + 15;
-  const unmountThreshold = 1.35 * vh;
+  const unmountThreshold = 1.8 * vh;
   const p2  = ease(Math.min(1, Math.max(0, p - 1)));
   const p3e = ease(Math.min(1, Math.max(0, p - 2)));
   const p4  =      Math.min(N-1, Math.max(0, p - 3));
@@ -362,7 +379,7 @@ export default function Portfolio() {
   const p6r =      Math.min(1, Math.max(0, p - 3 - (N-1) - 1));
 
   const heroScale  = 1 - p1 * 0.62;
-  const heroRadius = p1 * 20;
+  const heroRadius = p1 * 2;
   const bgScrollVh = p2 * 100 + p3e * 100 + p5 * 100 + p6 * 100;
   const bgOpacity  = p1 < 0.15 ? 0 : Math.min(1, (p1 - 0.15) / 0.3);
   const cardIdx    = Math.round(p4);
@@ -521,7 +538,7 @@ export default function Portfolio() {
               {/* Hero Scene 1 Mobile */}
               <div style={{
                 position: scrollYMobile < switchThreshold ? "fixed" : "absolute",
-                top: scrollYMobile < switchThreshold ? `${50 - p1 * 10}%` : cardCenterAbsolute,
+                top: scrollYMobile < switchThreshold ? `${50 - p1 * 25}%` : cardCenterAbsolute,
                 left: "50%",
                 width: scrollYMobile < switchThreshold ? `${100 - p1 * 35}vw` : "65vw",
                 height: scrollYMobile < switchThreshold ? `${100 - p1 * 78}vh` : "22vh",
@@ -546,13 +563,14 @@ export default function Portfolio() {
                   alignItems: "center",
                   textAlign: "center",
                   padding: "0 24px",
-                  transform: `translateY(${p1 * 5}px) scale(${1 - p1 * 0.52})`,
+                  transform: `translateY(${-40 + p1 * 45}px) scale(${1 - p1 * 0.52})`,
                   opacity: 1 - p1 * 0.5,
                   transformOrigin: "center center"
                 }}>
                   <p style={{
-                    fontFamily:"'Caveat',cursive",
-                    fontSize:"clamp(1.4rem,6vw,2rem)",
+                    fontFamily:"'Instrument Serif', serif",
+                    fontStyle:"italic",
+                    fontSize:"clamp(1.8rem,7vw,2.4rem)",
                     color:"#b0aaa0",
                     fontWeight:400,
                     margin:"0 0 0.1rem",
@@ -594,9 +612,7 @@ export default function Portfolio() {
                   left: "50%",
                   transform: "translateX(-50%)",
                   top: scrollYMobile < switchThreshold ? marqueeFixedTop : marqueeAbsoluteTop,
-                  opacity: scrollYMobile < switchThreshold
-                    ? Math.min(1, (p1 - 0.15) / 0.35)
-                    : Math.max(0, 1 - ((scrollYMobile - switchThreshold) / (0.4 * vh)) * 3),
+                  opacity: Math.min(1, (p1 - 0.15) / 0.35),
                   pointerEvents: "none",
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8, paddingLeft: 4 }}>
@@ -618,33 +634,71 @@ export default function Portfolio() {
           )}
 
           {/* Spacer for Hero (Scene 1) to allow scaling scroll room */}
-          <div style={{ height: "60vh" }} />
+          <div style={{ height: "100vh" }} />
 
           {/* Scene 2 — About (In normal document flow, so no empty gap after it!) */}
-          <div style={{
-            background: "#0f0f0f",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "60px 24px 40px",
-            position: "relative",
-            overflow: "hidden",
-            minHeight: "auto",
-          }}>
-            <div style={{ position:"absolute", top:"-10%", right:"5%", width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,220,80,0.12) 0%,transparent 65%)", pointerEvents:"none" }}/>
-            <div style={{ position: "relative", zIndex: 2 }}>
-              <p style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.28em", color:"#555", fontWeight:600, margin:"0 0 1rem" }}>About Me</p>
-              <h2 style={{ margin:"0 0 1.5rem", fontSize:"clamp(2rem,8vw,3rem)", fontWeight:900, color:"#fff", lineHeight:1.1, letterSpacing:"-0.03em" }}>
-                Turning ideas<br/>into <span style={{ color:"#444" }}>reality.</span>
-              </h2>
-              <p style={{ color:"#888", lineHeight:1.85, fontSize:"1rem", margin:"0 0 1rem" }}>Hi! I'm <strong style={{ color:"#fff", fontWeight:700 }}>Nawwaf Naufal</strong> — a passionate backend engineer based in Indonesia.</p>
-              <p style={{ color:"#666", lineHeight:1.85, fontSize:"0.95rem", margin:"0 0 2rem" }}>Currently open for freelance collaborations, internships, and exciting new projects.</p>
-              <div style={{ display:"flex", gap:12, flexWrap:"wrap" }}>
-                <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#fff", color:"#111", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>View My Work ↗</a>
-                <a href="#" style={{ display:"inline-flex", alignItems:"center", border:"1.5px solid #333", color:"#aaa", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>Download CV</a>
-              </div>
-            </div>
-          </div>
+         {/* Scene 2 — Marquee Text Mobile */}
+<div style={{
+  background: "#0f0f0f",
+  padding: "60px 0",
+  overflow: "hidden",
+  position: "relative",
+}}>
+  {/* Row 1 — bergerak ke kiri */}
+  <div style={{
+    overflow: "hidden",
+    padding: "0",
+  }}>
+    <div style={{
+      display: "flex",
+      width: "max-content",
+      animation: "marquee-left 18s linear infinite",
+    }}>
+      {[...Array(2)].flatMap(() =>
+        ["BACKEND ENGINEER", "·", "BUILDING SCALABLE", "·", "DIGITAL SYSTEMS", "·", "DISTRIBUTED ARCHITECTURE", "·"].map((text, i) => (
+          <span key={i} style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: "clamp(2.8rem, 13vw, 5rem)",
+            fontWeight: 400,
+            color: text === "·" ? "#b8ad9e" : "#ffffff",
+            letterSpacing: text === "·" ? "0" : "-0.01em",
+            padding: "0 1.2rem",
+            whiteSpace: "nowrap",
+            lineHeight: 1,
+          }}>{text}</span>
+        ))
+      )}
+    </div>
+  </div>
+
+  {/* Row 2 — bergerak ke kanan */}
+  <div style={{
+    overflow: "hidden",
+    padding: "0",
+    marginTop: "1.2vw",
+  }}>
+    <div style={{
+      display: "flex",
+      width: "max-content",
+      animation: "marquee-right 18s linear infinite",
+    }}>
+      {[...Array(2)].flatMap(() =>
+        ["OPEN TO WORK", "·", "BACKEND & FULLSTACK", "·", "NODE.JS · EXPRESS", "·", "ALWAYS BUILDING", "·"].map((text, i) => (
+          <span key={i} style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: "clamp(2.8rem, 13vw, 5rem)",
+            fontWeight: 400,
+            color: text === "·" ? "#b8ad9e" : "#555555",
+            letterSpacing: "-0.01em",
+            padding: "0 1.2rem",
+            whiteSpace: "nowrap",
+            lineHeight: 1,
+          }}>{text}</span>
+        ))
+      )}
+    </div>
+  </div>
+</div>
 
           {/* Scene 3 — Bio block (sama persis dengan desktop, pakai IntersectionObserver) */}
           <MobileScene3 />
@@ -1010,8 +1064,8 @@ export default function Portfolio() {
           {/* Hero Scene 1 DESKTOP */}
           <div style={{ position:"absolute", top:`${-bgScrollVh}vh`, left:0, right:0, height:"100vh", zIndex:2, transform:`scale(${heroScale})`, borderRadius:`${heroRadius}px`, transformOrigin:"center center", overflow:"hidden", willChange:"transform,border-radius,top", background:"#f5f0e8", pointerEvents:p1>0.97?"none":"auto" }}>
             <div style={{ position:"absolute", top:"12%", left:"52%", transform:"translate(-50%,0)", width:600, height:600, borderRadius:"50%", background:"radial-gradient(circle,#f2dfa8 0%,transparent 65%)", opacity:0.5, pointerEvents:"none" }}/>
-            <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"0 clamp(16px,5vw,72px)", transform:`translateY(${p1*-20}px)`, opacity:1-p1*0.5 }}>
-              <p style={{ fontFamily:"'Caveat',cursive", fontSize:"clamp(1.8rem,3.2vw,3rem)", color:"#b0aaa0", fontWeight:400, margin:"0 0 0.1rem" }}>hi, i'm</p>
+            <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"0 clamp(16px,5vw,72px)", transform:`translateY(${-60 + p1 * 40}px)`, opacity:1-p1*0.5 }}>
+              <p style={{ fontFamily:"'Instrument Serif', serif", fontStyle:"italic", fontSize:"clamp(2.2rem,3.8vw,3.6rem)", color:"#b0aaa0", fontWeight:400, margin:"0 0 0.1rem" }}>hi, i'm</p>
               <div style={{ fontSize:"clamp(3.6rem,10vw,11rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827", userSelect:"none" }}>Muhammad</div>
               <div style={{ fontSize:"clamp(3.6rem,10vw,11rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827", userSelect:"none" }}>Nawwaf</div>
               <div style={{ fontSize:"clamp(3.6rem,10vw,11rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#d4cfc8", userSelect:"none", marginBottom:"clamp(0.8rem,2.5vh,1.8rem)" }}>Naufal</div>
@@ -1030,7 +1084,7 @@ export default function Portfolio() {
 
           {/* Marquee DESKTOP */}
           {p1 > 0.15 && (
-            <div style={{ position:"absolute", zIndex:3, width:`${(100*heroScale).toFixed(2)}vw`, left:"50%", transform:"translateX(-50%)", top:`calc(${-bgScrollVh}vh + 50% + ${(50*heroScale).toFixed(2)}vh + 10px)`, opacity:Math.min(1,(p1-0.15)/0.35)*(1-p2*3), pointerEvents:"none" }}>
+            <div style={{ position:"absolute", zIndex:3, width:`${(100*heroScale).toFixed(2)}vw`, left:"50%", transform:"translateX(-50%)", top:`calc(${-bgScrollVh}vh + 50% + ${(50*heroScale).toFixed(2)}vh + 10px)`, opacity:Math.min(1,(p1-0.15)/0.35), pointerEvents:"none" }}>
               <div style={{ display:"flex", alignItems:"center", gap:16, marginBottom:12, paddingLeft:4 }}>
                 <span style={{ fontSize:"1rem", fontWeight:800, letterSpacing:"0.18em", textTransform:"uppercase", color:"#fff" }}>Skills</span>
                 <div style={{ flex:1, height:"1px", background:"#333" }}/>
@@ -1055,11 +1109,15 @@ export default function Portfolio() {
       )}
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap');
         *{box-sizing:border-box;-webkit-font-smoothing:antialiased;}
         html,body{margin:0;padding:0;}
         a:hover{opacity:0.75;}
         @keyframes marquee-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
       `}</style>
     </div>
   );
