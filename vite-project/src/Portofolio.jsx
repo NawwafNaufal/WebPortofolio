@@ -215,6 +215,173 @@ function MobileScene3() {
   );
 }
 
+// ─── MOBILE SCENE 5 (fully scroll-driven animations) ──────
+function MobileScene5({ scrollY }) {
+  const ref = useRef(null);
+
+  // Calculate entry progress (ap) based on scroll position
+  const getApProgress = () => {
+    if (!ref.current || typeof window === "undefined") return 0;
+    const rect = ref.current.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const elementTop = rect.top + window.scrollY;
+    // Slide-in starts when the section starts entering the viewport from the bottom
+    const start = elementTop - vh;
+    // Slide-in finishes when the section is scrolled nicely into view (e.g. top of section at 35% of vh)
+    const end = elementTop - vh * 0.35;
+    if (window.scrollY < start) return 0;
+    if (window.scrollY > end) return 1;
+    return (window.scrollY - start) / (end - start);
+  };
+
+  const ap = getApProgress();
+
+  function blockReveal(lineIndex) {
+    const STAGGER = 0.15;
+    const raw = Math.max(0, ap - lineIndex * STAGGER);
+    const clamped = Math.min(1, raw * 2.2);
+    const phase1 = Math.min(1, clamped * 2.08);
+    const phase2 = Math.min(1, Math.max(0, clamped * 2.08 - 1.15));
+    const e = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
+    return {
+      blockX: phase2 > 0 ? e(phase2)*100 : -100 + e(phase1)*100,
+      textY:  phase2 > 0 ? 105 - e(phase2)*105 : 105,
+    };
+  }
+
+  const e = ease;
+  const slideXLeft  = `${(1 - e(ap)) * -110}%`;
+  const slideXRight = `${(1 - e(ap)) * 110}%`;
+  const opacityVal  = ap;
+
+  // Calculate scroll-driven horizontal parallax offset
+  const getParallaxOffset = () => {
+    if (!ref.current || typeof window === "undefined") return 0;
+    const rect = ref.current.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const elementTop = rect.top + window.scrollY;
+    const start = elementTop - vh;
+    const end = elementTop + rect.height;
+    const current = window.scrollY;
+    if (current < start) return 25;
+    if (current > end) return -25;
+    const progress = (current - start) / (end - start);
+    return (0.5 - progress) * 50; // shift from +25px to -25px
+  };
+  const parallaxOffset = getParallaxOffset();
+
+  return (
+    <div ref={ref} style={{ background:"#f5f0e8", padding:"80px 24px", position:"relative", overflow:"hidden" }}>
+      {/* SVG wave background */}
+      <svg style={{ position:"absolute", inset:0, width:"100%", height:"100%", opacity: opacityVal * 0.15, pointerEvents:"none" }} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <path d="M-100 200 Q200 100 500 300 T1100 250 T1600 200" fill="none" stroke="#8a7e6e" strokeWidth="1.2"/>
+        <path d="M-100 350 Q300 200 600 400 T1200 350 T1600 300" fill="none" stroke="#8a7e6e" strokeWidth="1.2"/>
+        <path d="M-100 500 Q250 350 550 520 T1150 470 T1600 430" fill="none" stroke="#8a7e6e" strokeWidth="1.2"/>
+        <path d="M-100 650 Q350 500 650 650 T1300 580 T1600 570" fill="none" stroke="#8a7e6e" strokeWidth="1.2"/>
+        <path d="M-100 800 Q400 640 700 780 T1380 720 T1600 710" fill="none" stroke="#8a7e6e" strokeWidth="1.2"/>
+      </svg>
+
+      {/* Header */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:14, marginBottom:56, position:"relative", zIndex:2, opacity: opacityVal, transform: `translateY(${(1-e(ap))*20}px)` }}>
+        <div style={{ width:30, height:1, background:"#c0b8a8" }}/>
+        <span style={{ fontSize:"0.85rem", textTransform:"uppercase", letterSpacing:"0.25em", color:"#9a9080", fontWeight:700 }}>Experience</span>
+        <div style={{ width:30, height:1, background:"#c0b8a8" }}/>
+      </div>
+
+      {/* Blocks container */}
+      <div style={{
+        position:"relative",
+        zIndex:2,
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"flex-start",
+        gap:"1.2rem",
+        width:"100%"
+      }}>
+        {/* Block 1 */}
+        <div style={{
+          flex: 1,
+          display:"flex",
+          flexDirection:"column",
+          alignItems:"flex-end",
+          textAlign:"right",
+          opacity: opacityVal,
+          transform: `translateX(${slideXLeft}) translateX(${parallaxOffset}px)`
+        }}>
+          <div style={{ lineHeight:1.1, marginBottom: 8 }}>
+            {(() => {
+              const { blockX, textY } = blockReveal(0);
+              return (
+                <span style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
+                  <span style={{ display:"block", fontFamily:"'Instrument Serif', serif", fontStyle:"italic", fontSize:"clamp(3.0rem, 12vw, 4.2rem)", fontWeight:400, color:"#111", lineHeight:1, transform:`translateY(${textY}%)`, willChange:"transform" }}>OFF</span>
+                  <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#d0c8b8", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
+                </span>
+              );
+            })()}
+            {(() => {
+              const { blockX, textY } = blockReveal(1);
+              return (
+                <span style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
+                  <span style={{ display:"block", fontFamily:"'Bebas Neue', sans-serif", fontSize:"clamp(3.6rem, 15vw, 5.2rem)", fontWeight:400, color:"#111", lineHeight:0.9, letterSpacing:"-0.02em", transform:`translateY(${textY}%)`, willChange:"transform" }}>INTERN</span>
+                  <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#b8ad9e", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
+                </span>
+              );
+            })()}
+          </div>
+          <span style={{ display:"block", fontSize:"0.55rem", color:"#9a9080", letterSpacing:"0.05em", fontWeight:600 }}>AUG 2024 — OCT 2024</span>
+          <span style={{ display:"block", fontSize:"0.65rem", color:"#111", fontWeight:700, letterSpacing:"0.02em", marginTop:"0.2rem" }}>Full Stack Developer</span>
+          <p style={{ fontSize:"0.62rem", color:"#7a7060", lineHeight:1.5, margin:"0.6rem 0 0", width:"100%" }}>{EXPERIENCES[0].desc}</p>
+          <div style={{ marginTop: "24px", display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+            <img src="/starfood.svg" alt="Starfood International" style={{ maxWidth:"180px", width:"100%", height:"auto", opacity: 0.85 }}/>
+          </div>
+        </div>
+
+        {/* Vertical divider line */}
+        <div style={{ width: 1, alignSelf: "stretch", background: "rgba(138,126,110,0.15)" }}/>
+
+        {/* Block 2 */}
+        <div style={{
+          flex: 1,
+          display:"flex",
+          flexDirection:"column",
+          alignItems:"flex-start",
+          textAlign:"left",
+          opacity: opacityVal,
+          transform: `translateX(${slideXRight}) translateX(${-parallaxOffset}px)`
+        }}>
+          <div style={{ lineHeight:1.1, marginBottom: 8 }}>
+            {(() => {
+              const { blockX, textY } = blockReveal(0);
+              return (
+                <span style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
+                  <span style={{ display:"block", fontFamily:"'Instrument Serif', serif", fontStyle:"italic", fontSize:"clamp(3.0rem, 12vw, 4.2rem)", fontWeight:400, color:"#111", lineHeight:1, transform:`translateY(${textY}%)`, willChange:"transform" }}>ON</span>
+                  <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#b4ff50", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
+                </span>
+              );
+            })()}
+            {(() => {
+              const { blockX, textY } = blockReveal(1);
+              return (
+                <span style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
+                  <span style={{ display:"block", fontFamily:"'Bebas Neue', sans-serif", fontSize:"clamp(3.6rem, 15vw, 5.2rem)", fontWeight:400, color:"#111", lineHeight:0.9, letterSpacing:"-0.02em", transform:`translateY(${textY}%)`, willChange:"transform" }}>INTERN</span>
+                  <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#b8ad9e", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
+                </span>
+              );
+            })()}
+          </div>
+          <span style={{ display:"block", fontSize:"0.55rem", color:"#9a9080", letterSpacing:"0.05em", fontWeight:600 }}>DEC 2025 — NOW</span>
+          <span style={{ display:"block", fontSize:"0.65rem", color:"#111", fontWeight:700, letterSpacing:"0.02em", marginTop:"0.2rem" }}>Operational Area Programmer</span>
+          <p style={{ fontSize:"0.62rem", color:"#7a7060", lineHeight:1.5, margin:"0.6rem 0 0", width:"100%" }}>{EXPERIENCES[1].desc}</p>
+          <div style={{ marginTop: "24px", display: "flex", alignItems: "center", justifyContent: "flex-start", width: "100%" }}>
+            <img src="/UTSG.png" alt="Startup" style={{ maxWidth:"150px", width:"100%", height:"auto", opacity: 0.85 }}/>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── KOMPONEN UTAMA ───────────────────────────────────────────────────────────
 export default function Portfolio() {
   const rawRef    = useRef(0);
@@ -222,6 +389,8 @@ export default function Portfolio() {
   const smoothRef = useRef(0);
   const [p, setP] = useState(0);
   const [scrollYMobile, setScrollYMobile] = useState(0);
+  const [galleryMobileProgress, setGalleryMobileProgress] = useState(0);
+  const galleryMobileRef = useRef(null);
 
   const scene3PlayedRef = useRef(false);
   const animP3Ref  = useRef(0);
@@ -316,6 +485,13 @@ export default function Portfolio() {
         setScrollYMobile(currentScroll);
         // Map scrollY from 0 to 1.2 * vh (60vh zoom out + 60vh scroll out) to rawRef.current from 0 to 2
         rawRef.current = Math.min(2, Math.max(0, (currentScroll / (1.2 * vh)) * 2));
+
+        if (galleryMobileRef.current) {
+          const rect = galleryMobileRef.current.getBoundingClientRect();
+          const denom = rect.height - vh;
+          const progress = denom > 0 ? Math.min(1, Math.max(0, -rect.top / denom)) : 0;
+          setGalleryMobileProgress(progress);
+        }
       }
     };
 
@@ -501,14 +677,26 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
   const labelColor = `rgb(${Math.round(58+120*t)},${Math.round(58+100*t)},${Math.round(58+60*t)})`;
   const lineColor  = `rgba(${Math.round(32+140*t)},${Math.round(32+120*t)},${Math.round(32+100*t)},1)`;
 
+  // Mobile Scene 4 Dynamic Colors
+  const mobileProgress = galleryMobileProgress;
+  const mobileBgColor = lerpColor("#0f0f0f", "#f5f0e8", mobileProgress);
+  const mobileTextColor = lerpColor("#ffffff", "#0f0f0f", mobileProgress);
+  const mobileDescColor = lerpColor("#a6a6a6", "#333333", mobileProgress);
+  const mobileYearColor = lerpColor("#888888", "#666666", mobileProgress);
+  const mobileDividerColor = lerpColor("#1e1e1e", "#e0dacb", mobileProgress);
+  const mobileBadgeBorderColor = lerpColor("#4d4d4d", "#b8ad9e", mobileProgress);
+  const mobileBadgeTextColor = lerpColor("#b3b3b3", "#555555", mobileProgress);
+  const mobileHeaderColor = lerpColor("#888888", "#9a9080", mobileProgress);
+  const mobileHeaderLine = lerpColor("#333333", "#c0b8a8", mobileProgress);
+
   const StackBadges = ({ stack }) => (
     <div style={{ display:"flex", gap:6, marginTop:10, flexWrap:"wrap" }}>
       {stack.map(tech => (
         <span key={tech} style={{
           fontSize: "clamp(0.4rem, 0.6vw, 0.6rem)",
           padding: "3px 8px",
-          border: "0.5px solid rgba(255,255,255,0.3)",
-          color: "rgba(255,255,255,0.7)",
+          border: isMobile ? `0.5px solid ${mobileBadgeBorderColor}` : "0.5px solid rgba(255,255,255,0.3)",
+          color: isMobile ? mobileBadgeTextColor : "rgba(255,255,255,0.7)",
           borderRadius: 4,
           letterSpacing: "0.08em",
           textTransform: "uppercase",
@@ -650,24 +838,29 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     padding: "0",
   }}>
     <div style={{
-      display: "flex",
-      width: "max-content",
-      animation: "marquee-left 18s linear infinite",
+      transform: `translateX(${- (scrollYMobile * 0.35)}px)`,
+      willChange: "transform",
     }}>
-      {[...Array(2)].flatMap(() =>
-        ["BACKEND ENGINEER", "·", "BUILDING SCALABLE", "·", "DIGITAL SYSTEMS", "·", "DISTRIBUTED ARCHITECTURE", "·"].map((text, i) => (
-          <span key={i} style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: "clamp(2.8rem, 13vw, 5rem)",
-            fontWeight: 400,
-            color: text === "·" ? "#b8ad9e" : "#ffffff",
-            letterSpacing: text === "·" ? "0" : "-0.01em",
-            padding: "0 1.2rem",
-            whiteSpace: "nowrap",
-            lineHeight: 1,
-          }}>{text}</span>
-        ))
-      )}
+      <div style={{
+        display: "flex",
+        width: "max-content",
+        animation: "marquee-left 18s linear infinite",
+      }}>
+        {[...Array(4)].flatMap(() =>
+          ["BACKEND ENGINEER", "·", "BUILDING SCALABLE", "·", "DIGITAL SYSTEMS", "·", "DISTRIBUTED ARCHITECTURE", "·"].map((text, i) => (
+            <span key={i} style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "clamp(2.8rem, 13vw, 5rem)",
+              fontWeight: 400,
+              color: text === "·" ? "#b8ad9e" : "#ffffff",
+              letterSpacing: text === "·" ? "0" : "-0.01em",
+              padding: "0 1.2rem",
+              whiteSpace: "nowrap",
+              lineHeight: 1,
+            }}>{text}</span>
+          ))
+        )}
+      </div>
     </div>
   </div>
 
@@ -678,24 +871,29 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     marginTop: "1.2vw",
   }}>
     <div style={{
-      display: "flex",
-      width: "max-content",
-      animation: "marquee-right 18s linear infinite",
+      transform: `translateX(${-600 + (scrollYMobile * 0.35)}px)`,
+      willChange: "transform",
     }}>
-      {[...Array(2)].flatMap(() =>
-        ["OPEN TO WORK", "·", "BACKEND & FULLSTACK", "·", "NODE.JS · EXPRESS", "·", "ALWAYS BUILDING", "·"].map((text, i) => (
-          <span key={i} style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: "clamp(2.8rem, 13vw, 5rem)",
-            fontWeight: 400,
-            color: text === "·" ? "#b8ad9e" : "#555555",
-            letterSpacing: "-0.01em",
-            padding: "0 1.2rem",
-            whiteSpace: "nowrap",
-            lineHeight: 1,
-          }}>{text}</span>
-        ))
-      )}
+      <div style={{
+        display: "flex",
+        width: "max-content",
+        animation: "marquee-right 18s linear infinite",
+      }}>
+        {[...Array(4)].flatMap(() =>
+          ["OPEN TO WORK", "·", "BACKEND & FULLSTACK", "·", "NODE.JS · EXPRESS", "·", "ALWAYS BUILDING", "·"].map((text, i) => (
+            <span key={i} style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "clamp(2.8rem, 13vw, 5rem)",
+              fontWeight: 400,
+              color: text === "·" ? "#b8ad9e" : "#555555",
+              letterSpacing: "-0.01em",
+              padding: "0 1.2rem",
+              whiteSpace: "nowrap",
+              lineHeight: 1,
+            }}>{text}</span>
+          ))
+        )}
+      </div>
     </div>
   </div>
 </div>
@@ -704,11 +902,11 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           <MobileScene3 />
 
           {/* Scene 4 — Gallery MOBILE */}
-          <div style={{ background:"#1a1a1a", padding:"80px 20px 60px", boxSizing:"border-box" }}>
+          <div ref={galleryMobileRef} style={{ background: mobileBgColor, padding:"80px 20px 60px", boxSizing:"border-box", transition: "background-color 0.1s ease" }}>
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:40 }}>
-              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#888", fontWeight:600 }}>Selected Work</span>
-              <div style={{ flex:1, height:1, background:"#333" }}/>
-              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#888", fontWeight:600 }}>2023 — 2024</span>
+              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>Selected Work</span>
+              <div style={{ flex:1, height:1, background: mobileHeaderLine }}/>
+              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>2023 — 2024</span>
             </div>
 
             {PROJECTS.map((proj, projIdx) => (
@@ -732,39 +930,25 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                     );
                   })}
                 </div>
-                <p style={{ margin:"0 0 4px", fontSize:"clamp(1rem,5vw,1.3rem)", color:"#ffffff", fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
+                <p style={{ margin:"0 0 4px", fontSize:"clamp(1rem,5vw,1.3rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
                   {proj.title}
                 </p>
                 {proj.year && (
-                  <p style={{ margin:"0 0 8px", fontSize:"0.6rem", color:"rgba(255,255,255,0.4)", letterSpacing:"0.1em" }}>{proj.year}</p>
+                  <p style={{ margin:"0 0 8px", fontSize:"0.6rem", color: mobileYearColor, letterSpacing:"0.1em" }}>{proj.year}</p>
                 )}
-                <p style={{ margin:0, fontSize:"clamp(0.7rem,3.5vw,0.85rem)", color:"rgba(255,255,255,0.65)", lineHeight:1.8, letterSpacing:"0.02em" }}>
+                <p style={{ margin:0, fontSize:"clamp(0.7rem,3.5vw,0.85rem)", color: mobileDescColor, lineHeight:1.8, letterSpacing:"0.02em" }}>
                   {proj.desc}
                 </p>
                 <StackBadges stack={proj.stack} />
                 {projIdx < PROJECTS.length - 1 && (
-                  <div style={{ marginTop:32, height:1, background:"rgba(255,255,255,0.08)" }}/>
+                  <div style={{ marginTop:32, height:1, background: mobileDividerColor }}/>
                 )}
               </div>
             ))}
           </div>
 
           {/* Scene 5 — Experience mobile */}
-          <div style={{ background:"#f5f0e8", padding:"80px 24px", position:"relative", overflow:"hidden" }}>
-            <div style={{ textAlign:"center", marginBottom:48 }}>
-              <span style={{ fontSize:"0.85rem", textTransform:"uppercase", letterSpacing:"0.25em", color:"#9a9080", fontWeight:700 }}>Experience</span>
-            </div>
-            {EXPERIENCES.map((exp, i) => (
-              <div key={exp.id} style={{ marginBottom: i < EXPERIENCES.length-1 ? 48 : 0 }}>
-                <div style={{ fontSize:"clamp(2.5rem,12vw,4rem)", fontWeight:900, color:"#111", letterSpacing:"-0.03em", lineHeight:1 }}>
-                  {exp.role}
-                </div>
-                <div style={{ fontSize:"0.75rem", color:"#9a9080", letterSpacing:"0.1em", marginTop:"0.5rem" }}>{exp.year}</div>
-                <div style={{ fontSize:"0.85rem", color:"#111", fontWeight:600, letterSpacing:"0.05em", marginTop:"0.3rem" }}>{exp.company}</div>
-                <p style={{ fontSize:"0.82rem", color:"#7a7060", lineHeight:1.6, margin:"1rem 0 0" }}>{exp.desc}</p>
-              </div>
-            ))}
-          </div>
+          <MobileScene5 scrollY={scrollYMobile} />
 
           {/* Scene 6 — Contributions mobile */}
           <div style={{ background:"#181818", padding:"80px 20px 60px", boxSizing:"border-box" }}>
@@ -823,8 +1007,21 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           }}>
 
             {/* Scene 2 — Bio */}
-            <div style={{ height:"100vh", background:"#0f0f0f", display:"flex", alignItems:"center", justifyContent:"center", padding:"0 clamp(1.5rem,8vw,7rem)", overflow:"hidden", position:"relative" }}>
+            <div style={{
+              height:"100vh",
+              background:"#0f0f0f",
+              display:"flex",
+              flexDirection:"column",
+              alignItems:"center",
+              justifyContent:"center",
+              gap:"5vh",
+              padding:"0 clamp(1.5rem,8vw,7rem)",
+              overflow:"hidden",
+              position:"relative"
+            }}>
               <div style={{ position:"absolute", top:"-10%", right:"5%", width:600, height:600, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,220,80,0.12) 0%,transparent 65%)", pointerEvents:"none" }}/>
+              
+              {/* Bio Grid */}
               <div style={{ maxWidth:960, width:"100%", display:"grid", gridTemplateColumns:"1fr 1fr", gap:"5rem", alignItems:"center", position:"relative", zIndex:2 }}>
                 <div>
                   <p style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.28em", color:"#555", fontWeight:600, margin:"0 0 1rem" }}>About Me</p>
@@ -842,6 +1039,72 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                   <div style={{ marginTop:"2rem", display:"flex", gap:12, flexWrap:"wrap" }}>
                     <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#fff", color:"#111", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>View My Work ↗</a>
                     <a href="#" style={{ display:"inline-flex", alignItems:"center", border:"1.5px solid #333", color:"#aaa", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>Download CV</a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Scene 2 — Marquee Text Desktop */}
+              <div style={{
+                width: "100vw",
+                overflow: "hidden",
+                position: "relative",
+                marginTop: "2vh",
+              }}>
+                {/* Row 1 — bergerak ke kiri */}
+                <div style={{ overflow: "hidden", padding: "0" }}>
+                  <div style={{
+                    transform: `translateX(${- (p * 180)}px)`,
+                    willChange: "transform",
+                  }}>
+                    <div style={{
+                      display: "flex",
+                      width: "max-content",
+                      animation: "marquee-left 18s linear infinite",
+                    }}>
+                      {[...Array(4)].flatMap(() =>
+                        ["BACKEND ENGINEER", "·", "BUILDING SCALABLE", "·", "DIGITAL SYSTEMS", "·", "DISTRIBUTED ARCHITECTURE", "·"].map((text, i) => (
+                          <span key={i} style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontSize: "clamp(2rem, 5vw, 4.2rem)",
+                            fontWeight: 400,
+                            color: text === "·" ? "#b8ad9e" : "#ffffff",
+                            letterSpacing: text === "·" ? "0" : "-0.01em",
+                            padding: "0 1.5rem",
+                            whiteSpace: "nowrap",
+                            lineHeight: 1,
+                          }}>{text}</span>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 2 — bergerak ke kanan */}
+                <div style={{ overflow: "hidden", padding: "0", marginTop: "1vh" }}>
+                  <div style={{
+                    transform: `translateX(${-800 + (p * 180)}px)`,
+                    willChange: "transform",
+                  }}>
+                    <div style={{
+                      display: "flex",
+                      width: "max-content",
+                      animation: "marquee-right 18s linear infinite",
+                    }}>
+                      {[...Array(4)].flatMap(() =>
+                        ["OPEN TO WORK", "·", "BACKEND & FULLSTACK", "·", "NODE.JS · EXPRESS", "·", "ALWAYS BUILDING", "·"].map((text, i) => (
+                          <span key={i} style={{
+                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontSize: "clamp(2rem, 5vw, 4.2rem)",
+                            fontWeight: 400,
+                            color: text === "·" ? "#b8ad9e" : "#555555",
+                            letterSpacing: "-0.01em",
+                            padding: "0 1.5rem",
+                            whiteSpace: "nowrap",
+                            lineHeight: 1,
+                          }}>{text}</span>
+                        ))
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
