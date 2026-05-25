@@ -941,9 +941,9 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           {/* Scene 4 — Gallery MOBILE */}
           <div ref={galleryMobileRef} style={{ background: mobileBgColor, padding:"80px 20px 60px", boxSizing:"border-box", transition: "background-color 0.1s ease" }}>
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:40 }}>
-              <span style={{ fontSize:"0.75rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>Selected Work</span>
+              <span style={{ fontSize:"clamp(0.75rem,0.9vw,1.1rem)", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>Project Portfolio</span>
               <div style={{ flex:1, height:1, background: mobileHeaderLine }}/>
-              <span style={{ fontSize:"0.75rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>2023 — 2024</span>
+              <span style={{ fontSize:"clamp(0.75rem,0.9vw,1.1rem)", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>2023 — 2024</span>
             </div>
 
             {PROJECTS.map((proj, projIdx) => (
@@ -974,13 +974,13 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                     );
                   })()}
                 </div>
-                <p style={{ margin:"0 0 4px", fontSize:"clamp(1.2rem,6vw,1.6rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
+                <p style={{ margin:"0 0 8px", fontSize:"clamp(1.1rem,1.8vw,1.6rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
                   {proj.title}
                 </p>
                 {proj.year && (
-                  <p style={{ margin:"0 0 8px", fontSize:"0.75rem", color: mobileYearColor, letterSpacing:"0.1em" }}>{proj.year}</p>
+                  <p style={{ margin:"0 0 8px", fontSize:"clamp(0.65rem,0.85vw,0.85rem)", color: mobileYearColor, letterSpacing:"0.08em" }}>{proj.year}</p>
                 )}
-                <p style={{ margin:0, fontSize:"clamp(0.85rem,4vw,1.05rem)", color: mobileDescColor, lineHeight:1.7, letterSpacing:"0.62em" }}>
+                <p style={{ margin:0, fontSize:"clamp(0.75rem,1.0vw,0.9rem)", color: mobileDescColor, lineHeight:1.75, letterSpacing:"0.02em" }}>
                   {proj.desc}
                 </p>
                 <StackBadges stack={proj.stack} />
