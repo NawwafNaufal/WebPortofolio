@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
-const GITHUB_USERNAME = "NawwafNaufal";
-const GITHUB_TOKEN    = "REMOVED";
+const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME || "NawwafNaufal";
+const GITHUB_TOKEN    = import.meta.env.VITE_GITHUB_TOKEN || "REMOVED";
 
 const NAV_LINKS = ["Blog", "Portfolio", "About", "Projects"];
 
@@ -236,7 +236,7 @@ function MobileScene5({ scrollY }) {
 
   const ap = getApProgress();
 
-  function blockReveal(lineIndex) {
+  function blockReveal(lineIndex, fromRight = false) {
     const STAGGER = 0.15;
     const raw = Math.max(0, ap - lineIndex * STAGGER);
     const clamped = Math.min(1, raw * 2.2);
@@ -244,7 +244,9 @@ function MobileScene5({ scrollY }) {
     const phase2 = Math.min(1, Math.max(0, clamped * 2.08 - 1.15));
     const e = t => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
     return {
-      blockX: phase2 > 0 ? e(phase2)*100 : -100 + e(phase1)*100,
+      blockX: fromRight
+        ? (phase2 > 0 ? -e(phase2)*100 : 100 - e(phase1)*100)
+        : (phase2 > 0 ? e(phase2)*100 : -100 + e(phase1)*100),
       textY:  phase2 > 0 ? 105 - e(phase2)*105 : 105,
     };
   }
@@ -352,16 +354,16 @@ function MobileScene5({ scrollY }) {
         }}>
           <div style={{ lineHeight:1.1, marginBottom: 8 }}>
             {(() => {
-              const { blockX, textY } = blockReveal(0);
+              const { blockX, textY } = blockReveal(0, true);
               return (
                 <span style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
                   <span style={{ display:"block", fontFamily:"'Instrument Serif', serif", fontStyle:"italic", fontSize:"clamp(3.0rem, 12vw, 4.2rem)", fontWeight:400, color:"#111", lineHeight:1, transform:`translateY(${textY}%)`, willChange:"transform" }}>ON</span>
-                  <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#b4ff50", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
+                  <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#d0c8b8", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
                 </span>
               );
             })()}
             {(() => {
-              const { blockX, textY } = blockReveal(1);
+              const { blockX, textY } = blockReveal(1, true);
               return (
                 <span style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
                   <span style={{ display:"block", fontFamily:"'Bebas Neue', sans-serif", fontSize:"clamp(3.6rem, 15vw, 5.2rem)", fontWeight:400, color:"#111", lineHeight:0.9, letterSpacing:"-0.02em", transform:`translateY(${textY}%)`, willChange:"transform" }}>INTERN</span>
@@ -579,7 +581,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     return { blockX, textY };
   }
 
-  function blockRevealExp(lineIndex) {
+  function blockRevealExp(lineIndex, fromRight = false) {
     const ap = animP5;
     const STAGGER = 0.2;
     const raw = Math.max(0, ap - lineIndex * STAGGER);
@@ -587,7 +589,9 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     const phase1 = Math.min(1, clamped * 2.08);
     const phase2 = Math.min(1, Math.max(0, clamped * 2.08 - 1.15));
     const e1 = ease(phase1), e2 = ease(phase2);
-    const blockX = phase2 > 0 ? e2 * 100 : -100 + e1 * 100;
+    const blockX = fromRight
+      ? (phase2 > 0 ? -e2 * 100 : 100 - e1 * 100)
+      : (phase2 > 0 ? e2 * 100 : -100 + e1 * 100);
     const textY  = phase2 > 0 ? 105 - e2 * 105 : 105;
     return { blockX, textY };
   }
@@ -611,7 +615,6 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
   const PROJECTS = [
     {
       title: "Program HRD",
-      year: "Built in 2024",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       stack: ["React JS", "Express", "MySQL", "Bootstrap"],
       imageIndexes: [0, 1, 2, 3],
@@ -620,7 +623,6 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     },
     {
       title: "Sistem Monitoring Inventori",
-      year: "Built in 2024",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       stack: ["React JS", "Express", "MySQL", "Bootstrap"],
       imageIndexes: [4, 5, 6],
@@ -656,8 +658,8 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     { top:"56vh", left:"140vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
     { top:"56vh", left:"176vw", w:"35vw", speed:1.0, z:2, rotate:0  },
     { top:"18vh", left:"230vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
-    { top:"36vh", left:"268vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
-    { top:"56vh", left:"306vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+    { top:"54vh", left:"258vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+    { top:"23vh", left:"294vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
     { top:"18vh", left:"360vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
     { top:"36vh", left:"390vw", w:"35vw", speed:1.0, z:2, rotate:0  },
     { top:"56vh", left:"423vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
@@ -904,31 +906,38 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           {/* Scene 4 — Gallery MOBILE */}
           <div ref={galleryMobileRef} style={{ background: mobileBgColor, padding:"80px 20px 60px", boxSizing:"border-box", transition: "background-color 0.1s ease" }}>
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:40 }}>
-              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>Selected Work</span>
+              <span style={{ fontSize:"0.75rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>Selected Work</span>
               <div style={{ flex:1, height:1, background: mobileHeaderLine }}/>
-              <span style={{ fontSize:"0.55rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>2023 — 2024</span>
+              <span style={{ fontSize:"0.75rem", textTransform:"uppercase", letterSpacing:"0.3em", color: mobileHeaderColor, fontWeight:600 }}>2023 — 2024</span>
             </div>
 
             {PROJECTS.map((proj, projIdx) => (
               <div key={projIdx} style={{ marginBottom: 56 }}>
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: proj.imageIndexes.length === 1 ? "1fr" : "1fr 1fr",
-                  gap: 8,
-                  marginBottom: 16,
-                }}>
-                  {proj.imageIndexes.map(imgIdx => {
-                    const item = GALLERY_ITEMS[imgIdx];
+                <div style={{ marginBottom: 16 }}>
+                  {(() => {
+                    const firstImgIdx = proj.imageIndexes[0];
+                    const item = GALLERY_ITEMS[firstImgIdx];
                     if (!item) return null;
                     return (
-                      <div key={imgIdx} style={{ width:"100%", aspectRatio:"16/10", overflow:"hidden", borderRadius:6, boxShadow:"0 4px 16px rgba(0,0,0,0.3)" }}>
-                        {item.img
-                          ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"top left", display:"block" }}/>
-                          : <div style={{ width:"100%", height:"100%", background:"#1a1a1a" }}/>
-                        }
+                      <div style={{ width: "100%" }}>
+                        {item.img ? (
+                          <img
+                            src={item.img}
+                            alt={item.title}
+                            style={{
+                              width: "100%",
+                              height: "auto",
+                              display: "block",
+                              borderRadius: 6,
+                              boxShadow: "0 4px 16px rgba(0,0,0,0.3)"
+                            }}
+                          />
+                        ) : (
+                          <div style={{ width: "100%", aspectRatio: "16/10", background: "#1a1a1a", borderRadius: 6 }} />
+                        )}
                       </div>
                     );
-                  })}
+                  })()}
                 </div>
                 <p style={{ margin:"0 0 4px", fontSize:"clamp(1rem,5vw,1.3rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
                   {proj.title}
@@ -951,7 +960,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           <MobileScene5 scrollY={scrollYMobile} />
 
           {/* Scene 6 — Contributions mobile */}
-          <div style={{ background:"#181818", padding:"80px 20px 60px", boxSizing:"border-box" }}>
+          <div style={{ background:"#0f0f0f", padding:"80px 20px 60px", boxSizing:"border-box" }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"2rem" }}>
               <span style={{ fontSize:"0.6rem", textTransform:"uppercase", letterSpacing:"0.3em", color:"#444", fontWeight:600 }}>Contributions</span>
               <div style={{ display:"flex", alignItems:"center", gap:8 }}>
@@ -1021,27 +1030,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
             }}>
               <div style={{ position:"absolute", top:"-10%", right:"5%", width:600, height:600, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,220,80,0.12) 0%,transparent 65%)", pointerEvents:"none" }}/>
               
-              {/* Bio Grid */}
-              <div style={{ maxWidth:960, width:"100%", display:"grid", gridTemplateColumns:"1fr 1fr", gap:"5rem", alignItems:"center", position:"relative", zIndex:2 }}>
-                <div>
-                  <p style={{ fontSize:"0.65rem", textTransform:"uppercase", letterSpacing:"0.28em", color:"#555", fontWeight:600, margin:"0 0 1rem" }}>About Me</p>
-                  <h2 style={{ margin:0, fontSize:"clamp(2.4rem,4.5vw,3.8rem)", fontWeight:900, color:"#fff", lineHeight:1.1, letterSpacing:"-0.03em" }}>
-                    Turning ideas<br/>into <span style={{ color:"#444" }}>reality.</span>
-                  </h2>
-                  <div style={{ marginTop:"2.5rem", display:"flex", alignItems:"center", gap:12 }}>
-                    <div style={{ width:40, height:1, background:"#333" }}/>
-                    <span style={{ fontSize:"0.7rem", color:"#555", letterSpacing:"0.15em", textTransform:"uppercase" }}>Indonesia · 2024</span>
-                  </div>
-                </div>
-                <div>
-                  <p style={{ color:"#888", lineHeight:1.85, fontSize:"1rem", margin:0 }}>Hi! I'm <strong style={{ color:"#fff", fontWeight:700 }}>Nawwaf Naufal</strong> — a passionate backend engineer based in Indonesia.</p>
-                  <p style={{ color:"#666", lineHeight:1.85, fontSize:"0.95rem", marginTop:"1.2rem" }}>Currently open for freelance collaborations, internships, and exciting new projects.</p>
-                  <div style={{ marginTop:"2rem", display:"flex", gap:12, flexWrap:"wrap" }}>
-                    <a href="#" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#fff", color:"#111", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>View My Work ↗</a>
-                    <a href="#" style={{ display:"inline-flex", alignItems:"center", border:"1.5px solid #333", color:"#aaa", fontSize:"0.85rem", fontWeight:600, padding:"12px 22px", borderRadius:99, textDecoration:"none" }}>Download CV</a>
-                  </div>
-                </div>
-              </div>
+
 
               {/* Scene 2 — Marquee Text Desktop */}
               <div style={{
@@ -1150,10 +1139,10 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
             {/* Scene 4 — Gallery DESKTOP */}
             <div style={{ height:"100vh", minHeight:"100vh", background:galleryBg, overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center" }}>
               <div style={{ position:"absolute", top:"clamp(60px,8vh,80px)", left:"clamp(1.5rem,6vw,5rem)", right:"clamp(1.5rem,6vw,5rem)", display:"flex", alignItems:"center", justifyContent:"space-between", zIndex:10 }}>
-                <div style={{ display:"flex", alignItems:"center", gap:"clamp(8px,1vw,16px)" }}>
-                  <span style={{ fontSize:"clamp(0.5rem,0.6vw,0.6rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Selected Work</span>
-                  <div style={{ width:"clamp(24px,3vw,48px)", height:1, background:lineColor }}/>
-                  <span style={{ fontSize:"clamp(0.5rem,0.6vw,0.6rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>2023 — 2024</span>
+                <div style={{ display:"flex", alignItems:"center", gap:"clamp(10px,1.2vw,20px)" }}>
+                  <span style={{ fontSize:"clamp(0.75rem,0.9vw,1.1rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Project Portfolio</span>
+                  <div style={{ width:"clamp(30px,4vw,60px)", height:1, background:lineColor }}/>
+                  <span style={{ fontSize:"clamp(0.75rem,0.9vw,1.1rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>2023 — 2024</span>
                 </div>
               </div>
 
@@ -1165,7 +1154,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                   <div key={item.id + "-" + i}>
                     <div style={{ position:"absolute", top:s.top, left:`calc(${s.left} - ${shiftX}vw)`, width:s.w, height:"35vh", overflow:"hidden", willChange:"left", zIndex:s.z, transform:`rotate(${s.rotate}deg)`, boxShadow:"0 8px 32px rgba(0,0,0,0.15)" }}>
                       {item.img
-                        ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"contain", objectPosition:"top left", display:"block" }}/>
+                        ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"top center", display:"block" }}/>
                         : <div style={{ width:"100%", height:"100%", background:"#111" }}/>
                       }
                     </div>
@@ -1224,11 +1213,11 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                 </div>
                 <div style={{ textAlign:"left", width:300, transform:imgSlideRight }}>
                   {[["ON","'Instrument Serif', serif",400,"5rem"],["INTERN","'Bebas Neue', sans-serif",400,"6rem"]].map(([text,font,weight,size],i) => {
-                    const { blockX, textY } = blockRevealExp(i);
+                    const { blockX, textY } = blockRevealExp(i, true);
                     return (
                       <span key={i} style={{ display:"block", overflow:"hidden", position:"relative", lineHeight:1.1 }}>
                         <span style={{ display:"block", fontFamily:font, fontSize:size, fontWeight:weight, letterSpacing:"-0.03em", color:"#111", lineHeight:1, transform:`translateY(${textY}%)`, willChange:"transform" }}>{text}</span>
-                        <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#b4ff50", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
+                        <span style={{ position:"absolute", top:0, bottom:0, left:"-5%", right:"-5%", background:"#d0c8b8", transform:`translateX(${blockX}%)`, willChange:"transform", zIndex:3 }}/>
                       </span>
                     );
                   })}
@@ -1255,7 +1244,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           </div>{/* end tall panel desktop */}
 
           {/* Scene 6 — Contributions DESKTOP */}
-          <div style={{ height:"100vh", background:"#181818", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"clamp(1.5rem,6vw,5rem)", overflow:"hidden", position:"relative", transform:`translateY(${(1-ease(Math.min(1,p6r*1.8)))*100}%)`, willChange:"transform", zIndex:5 }}>
+          <div style={{ height:"100vh", background:"#0f0f0f", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"clamp(1.5rem,6vw,5rem)", overflow:"hidden", position:"relative", transform:`translateY(${(1-ease(Math.min(1,p6r*1.8)))*100}%)`, willChange:"transform", zIndex:5 }}>
             <div style={{ position:"absolute", top:"-5%", left:"40%", width:700, height:700, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,255,80,0.04) 0%,transparent 65%)", pointerEvents:"none" }}/>
             <div style={{ width:"100%", maxWidth:960, opacity:contribOpacity, transform:`translateY(${contribSlideY}px)`, willChange:"transform,opacity" }}>
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"2.5rem" }}>
@@ -1370,6 +1359,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           </div>
         </>
       )}
+
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,900&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap');
