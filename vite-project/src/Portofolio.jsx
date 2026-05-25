@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
-const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME || "NawwafNaufal";
-const GITHUB_TOKEN    = import.meta.env.VITE_GITHUB_TOKEN || "REMOVED";
+const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME;
+const GITHUB_TOKEN    = import.meta.env.VITE_GITHUB_TOKEN;
 
 const NAV_LINKS = ["Blog", "Portfolio", "About", "Projects"];
 
@@ -615,7 +614,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
   const PROJECTS = [
     {
       title: "Program HRD",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      desc: "A web-based HRD application designed to streamline employee data management, covering recruitment, attendance tracking, and performance monitoring in one integrated platform.",
       stack: ["React JS", "Express", "MySQL", "Bootstrap"],
       imageIndexes: [0, 1, 2, 3],
       infoLeft: "2vw", infoTop: "57vh",
@@ -623,25 +622,25 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     },
     {
       title: "Sistem Monitoring Inventori",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      stack: ["React JS", "Express", "MySQL", "Bootstrap"],
+      desc: "A web-based inventory monitoring application designed to track and display incoming and outgoing goods in real-time with a responsive and intuitive dashboard.",
+      stack: ["React JS", "Express", "MySQL", "Tailwind Css"],
       imageIndexes: [4, 5, 6],
       infoLeft: "160vw", infoTop: "29vh",
       yearLeft: null, yearTop: null,
     },
     {
-      title: "Sistem Monitoring Inventori 2",
+      title: "LingoChat",
       year: null,
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      desc: "A real-time chat application enhanced with automatic translation and autocorrect features, powered by statistical language modeling and the Google Translate API to enable seamless cross-language communication.",
       stack: ["React JS", "Express", "MySQL", "Bootstrap"],
       imageIndexes: [7, 8, 9],
-      infoLeft: "231vw", infoTop: "56vh",
+      infoLeft: "268vw", infoTop: "25vh",
       yearLeft: null, yearTop: null,
     },
     {
       title: "Rest API VidioMeet",
       year: null,
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      desc: "A RESTful API powering a real-time video conferencing platform with core features including room creation, participant management, real-time communication, and a subscription system for premium access control.",
       stack: ["Node JS", "Express", "MySQL", "Postman"],
       imageIndexes: [10, 11, 12, 13, 14],
       infoLeft: "430vw", infoTop: "32vh",
@@ -659,7 +658,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     { top:"56vh", left:"176vw", w:"35vw", speed:1.0, z:2, rotate:0  },
     { top:"18vh", left:"230vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
     { top:"54vh", left:"258vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
-    { top:"23vh", left:"294vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
+    { top:"28vh", left:"294vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
     { top:"18vh", left:"360vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
     { top:"36vh", left:"390vw", w:"35vw", speed:1.0, z:2, rotate:0  },
     { top:"56vh", left:"423vw", w:"35vw", speed:1.0, z:2, rotate:-1 },
@@ -691,14 +690,14 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
   const mobileHeaderColor = lerpColor("#888888", "#9a9080", mobileProgress);
   const mobileHeaderLine = lerpColor("#333333", "#c0b8a8", mobileProgress);
 
-  const StackBadges = ({ stack }) => (
+  const StackBadges = ({ stack, isDark = false }) => (
     <div style={{ display:"flex", gap:6, marginTop:10, flexWrap:"wrap" }}>
       {stack.map(tech => (
         <span key={tech} style={{
-          fontSize: "clamp(0.4rem, 0.6vw, 0.6rem)",
+          fontSize: "clamp(0.5rem, 0.75vw, 0.75rem)",
           padding: "3px 8px",
-          border: isMobile ? `0.5px solid ${mobileBadgeBorderColor}` : "0.5px solid rgba(255,255,255,0.3)",
-          color: isMobile ? mobileBadgeTextColor : "rgba(255,255,255,0.7)",
+          border: isMobile ? `0.5px solid ${mobileBadgeBorderColor}` : `0.5px solid ${isDark ? "#b8ad9e" : "rgba(255,255,255,0.3)"}`,
+          color: isMobile ? mobileBadgeTextColor : (isDark ? "#555555" : "rgba(255,255,255,0.7)"),
           borderRadius: 4,
           letterSpacing: "0.08em",
           textTransform: "uppercase",
@@ -746,7 +745,41 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                 justifyContent: "center",
                 boxShadow: p1 > 0.1 ? `0 ${p1 * 8}px ${p1 * 24}px rgba(0,0,0,0.4)` : "none",
               }}>
-                <div style={{ position:"absolute", top:"12%", left:"52%", transform:"translate(-50%,0)", width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,#f2dfa8 0%,transparent 65%)", opacity:0.5, pointerEvents:"none" }}/>
+                <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 1 }}>
+                  <div style={{
+                    position: "absolute",
+                    top: "5%",
+                    left: "30%",
+                    width: 300,
+                    height: 300,
+                    borderRadius: "50%",
+                    background: "radial-gradient(circle, rgba(242,223,168,0.55) 0%, transparent 70%)",
+                    filter: "blur(10px)",
+                    animation: "float-blob-1 25s ease-in-out infinite",
+                  }}/>
+                  <div style={{
+                    position: "absolute",
+                    bottom: "5%",
+                    right: "20%",
+                    width: 250,
+                    height: 250,
+                    borderRadius: "50%",
+                    background: "radial-gradient(circle, rgba(245,200,200,0.45) 0%, transparent 70%)",
+                    filter: "blur(10px)",
+                    animation: "float-blob-2 30s ease-in-out infinite",
+                  }}/>
+                  <div style={{
+                    position: "absolute",
+                    top: "20%",
+                    left: "15%",
+                    width: 220,
+                    height: 220,
+                    borderRadius: "50%",
+                    background: "radial-gradient(circle, rgba(212,230,212,0.45) 0%, transparent 70%)",
+                    filter: "blur(10px)",
+                    animation: "float-blob-3 22s ease-in-out infinite",
+                  }}/>
+                </div>
                 <div style={{
                   display: "flex",
                   flexDirection: "column",
@@ -755,7 +788,9 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                   padding: "0 24px",
                   transform: `translateY(${-40 + p1 * 45}px) scale(${1 - p1 * 0.52})`,
                   opacity: 1 - p1 * 0.5,
-                  transformOrigin: "center center"
+                  transformOrigin: "center center",
+                  position: "relative",
+                  zIndex: 2
                 }}>
                   <p style={{
                     fontFamily:"'Instrument Serif', serif",
@@ -851,7 +886,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
         {[...Array(4)].flatMap(() =>
           ["BACKEND ENGINEER", "·", "BUILDING SCALABLE", "·", "DIGITAL SYSTEMS", "·", "DISTRIBUTED ARCHITECTURE", "·"].map((text, i) => (
             <span key={i} style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'Instrument Serif', serif",
               fontSize: "clamp(2.8rem, 13vw, 5rem)",
               fontWeight: 400,
               color: text === "·" ? "#b8ad9e" : "#ffffff",
@@ -939,13 +974,13 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                     );
                   })()}
                 </div>
-                <p style={{ margin:"0 0 4px", fontSize:"clamp(1rem,5vw,1.3rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
+                <p style={{ margin:"0 0 4px", fontSize:"clamp(1.2rem,6vw,1.6rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
                   {proj.title}
                 </p>
                 {proj.year && (
-                  <p style={{ margin:"0 0 8px", fontSize:"0.6rem", color: mobileYearColor, letterSpacing:"0.1em" }}>{proj.year}</p>
+                  <p style={{ margin:"0 0 8px", fontSize:"0.75rem", color: mobileYearColor, letterSpacing:"0.1em" }}>{proj.year}</p>
                 )}
-                <p style={{ margin:0, fontSize:"clamp(0.7rem,3.5vw,0.85rem)", color: mobileDescColor, lineHeight:1.8, letterSpacing:"0.02em" }}>
+                <p style={{ margin:0, fontSize:"clamp(0.85rem,4vw,1.05rem)", color: mobileDescColor, lineHeight:1.7, letterSpacing:"0.62em" }}>
                   {proj.desc}
                 </p>
                 <StackBadges stack={proj.stack} />
@@ -1053,7 +1088,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                       {[...Array(4)].flatMap(() =>
                         ["BACKEND ENGINEER", "·", "BUILDING SCALABLE", "·", "DIGITAL SYSTEMS", "·", "DISTRIBUTED ARCHITECTURE", "·"].map((text, i) => (
                           <span key={i} style={{
-                            fontFamily: "'Bebas Neue', sans-serif",
+                            fontFamily: "'Instrument Serif', serif",
                             fontSize: "clamp(2rem, 5vw, 4.2rem)",
                             fontWeight: 400,
                             color: text === "·" ? "#b8ad9e" : "#ffffff",
@@ -1160,13 +1195,13 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                     </div>
                     {infoData?.isFirst && (
                       <div style={{ position:"absolute", top:infoData.infoTop, left:`calc(${infoData.infoLeft} - ${shiftX}vw)`, width:"clamp(160px, 28vw, 320px)", zIndex:999 }}>
-                        <p style={{ margin:"0 0 8px", fontSize:"clamp(0.65rem,1vw,0.85rem)", color:"#ffffff", fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>{infoData.title}</p>
-                        <p style={{ margin:0, fontSize:"clamp(0.55rem,0.8vw,0.7rem)", color:"rgba(255,255,255,0.65)", lineHeight:1.75, letterSpacing:"0.02em" }}>{infoData.desc}</p>
-                        <StackBadges stack={infoData.stack} />
+                        <p style={{ margin:"0 0 8px", fontSize:"clamp(1.1rem,1.0vw,0.9rem)", color:infoData.title === "Rest API VidioMeet" ? "#0f0f0f" : "#ffffff", fontFamily:"'Instrument Serif'", fontWeight:700, letterSpacing:"0.05em" }}>{infoData.title}</p>
+                        <p style={{ margin:0,fontFamily:"'Bebas Neue', sans-serif", fontSize:"clamp(0.75rem,1.0vw, 0.9rem)", color:infoData.title === "Rest API VidioMeet" ? "#333333" : "rgba(255,255,255,0.65)", lineHeight:1.75, letterSpacing:"0.02em" }}>{infoData.desc}</p>
+                        <StackBadges stack={infoData.stack} isDark={infoData.title === "Rest API VidioMeet"} />
                       </div>
                     )}
                     {infoData?.isFirst && infoData?.year && (
-                      <p style={{ position:"absolute", top:infoData.yearTop, left:`calc(${infoData.yearLeft} - ${shiftX}vw)`, fontSize:"clamp(0.5rem,0.65vw,0.65rem)", color:"rgba(255,255,255,0.45)", letterSpacing:"0.08em", margin:0, zIndex:999 }}>
+                      <p style={{ position:"absolute", top:infoData.yearTop, left:`calc(${infoData.yearLeft} - ${shiftX}vw)`, fontSize:"clamp(0.65rem,0.85vw,0.85rem)", color:infoData.title === "Rest API VidioMeet" ? "#666666" : "rgba(255,255,255,0.45)", letterSpacing:"0.08em", margin:0, zIndex:999 }}>
                         {infoData.year}
                       </p>
                     )}
@@ -1315,8 +1350,43 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
 
           {/* Hero Scene 1 DESKTOP */}
           <div style={{ position:"absolute", top:`${-bgScrollVh}vh`, left:0, right:0, height:"100vh", zIndex:2, transform:`scale(${heroScale})`, borderRadius:`${heroRadius}px`, transformOrigin:"center center", overflow:"hidden", willChange:"transform,border-radius,top", background:"#f5f0e8", pointerEvents:p1>0.97?"none":"auto" }}>
-            <div style={{ position:"absolute", top:"12%", left:"52%", transform:"translate(-50%,0)", width:600, height:600, borderRadius:"50%", background:"radial-gradient(circle,#f2dfa8 0%,transparent 65%)", opacity:0.5, pointerEvents:"none" }}/>
-            <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"0 clamp(16px,5vw,72px)", transform:`translateY(${-60 + p1 * 40}px)`, opacity:1-p1*0.5 }}>
+            {/* Ambient Background Animation DESKTOP */}
+            <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 1 }}>
+              <div style={{
+                position: "absolute",
+                top: "10%",
+                left: "40%",
+                width: 600,
+                height: 600,
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(242,223,168,0.6) 0%, transparent 70%)",
+                filter: "blur(20px)",
+                animation: "float-blob-1 25s ease-in-out infinite",
+              }}/>
+              <div style={{
+                position: "absolute",
+                bottom: "10%",
+                right: "30%",
+                width: 500,
+                height: 500,
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(245,200,200,0.5) 0%, transparent 70%)",
+                filter: "blur(20px)",
+                animation: "float-blob-2 30s ease-in-out infinite",
+              }}/>
+              <div style={{
+                position: "absolute",
+                top: "35%",
+                left: "25%",
+                width: 450,
+                height: 450,
+                borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(212,230,212,0.5) 0%, transparent 70%)",
+                filter: "blur(20px)",
+                animation: "float-blob-3 22s ease-in-out infinite",
+              }}/>
+            </div>
+            <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", textAlign:"center", padding:"0 clamp(16px,5vw,72px)", transform:`translateY(${-60 + p1 * 40}px)`, opacity:1-p1*0.5, zIndex: 2 }}>
               <p style={{ fontFamily:"'Instrument Serif', serif", fontStyle:"italic", fontSize:"clamp(2.2rem,3.8vw,3.6rem)", color:"#b0aaa0", fontWeight:400, margin:"0 0 0.1rem" }}>hi, i'm</p>
               <div style={{ fontSize:"clamp(3.6rem,10vw,11rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827", userSelect:"none" }}>Muhammad</div>
               <div style={{ fontSize:"clamp(3.6rem,10vw,11rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#111827", userSelect:"none" }}>Nawwaf</div>
@@ -1368,9 +1438,25 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
         a:hover{opacity:0.75;}
         @keyframes marquee-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes marquee-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0%); }
-}
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0%); }
+        }
+        @keyframes float-blob-1 {
+          0% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(8vw, -8vh) scale(1.15); }
+          66% { transform: translate(-4vw, 12vh) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float-blob-2 {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-10vw, 10vh) scale(0.85); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes float-blob-3 {
+          0% { transform: translate(0, 0) scale(1); }
+          40% { transform: translate(12vw, 6vh) scale(1.1); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
       `}</style>
     </div>
   );
