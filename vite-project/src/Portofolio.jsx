@@ -13,8 +13,8 @@ const GALLERY_ITEMS = [
   { id:5,  title:"Portfolio v2",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Monitoring1.png"},
   { id:6,  title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Monitoring2.png"},
   { id:7,  title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Monitoring3.png"},
-  { id:8,  title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat1.png"},
-  { id:9,  title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat2.png"},
+  { id:8,  title:"Portfolio v5",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat2.png"},
+  { id:9,  title:"Portfolio v6",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat1.png"},
   { id:10, title:"Portfolio v7",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/Chat3.png"},
   { id:6,  title:"Portfolio v3",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet1.png"},
   { id:7,  title:"Portfolio v4",    label:"Personal, 2023",         tag:"Dev",      accent:"#22d3ee", color:"#111", img:"/image/VidioMeet2.png"},
@@ -389,6 +389,10 @@ export default function Portfolio() {
   const rafRef    = useRef(null);
   const smoothRef = useRef(0);
   const [p, setP] = useState(0);
+  const [maxP, setMaxP] = useState(0);
+  useEffect(() => {
+    if (p > maxP) setMaxP(p);
+  }, [p, maxP]);
   const [scrollYMobile, setScrollYMobile] = useState(0);
   const [galleryMobileProgress, setGalleryMobileProgress] = useState(0);
   const galleryMobileRef = useRef(null);
@@ -615,6 +619,11 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     {
       title: "Program HRD",
       desc: "A web-based HRD application designed to streamline employee data management, covering recruitment, attendance tracking, and performance monitoring in one integrated platform.",
+      descLines: [
+        "A web-based HRD application designed to streamline",
+        "employee data management, covering recruitment,",
+        "attendance, and performance monitoring in one platform."
+      ],
       stack: ["React JS", "Express", "MySQL", "Bootstrap"],
       imageIndexes: [0, 1, 2, 3],
       infoLeft: "2vw", infoTop: "57vh",
@@ -623,6 +632,11 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
     {
       title: "Sistem Monitoring Inventori",
       desc: "A web-based inventory monitoring application designed to track and display incoming and outgoing goods in real-time with a responsive and intuitive dashboard.",
+      descLines: [
+        "A web-based inventory monitoring application designed",
+        "to track and display incoming and outgoing goods in",
+        "real-time with a responsive and intuitive dashboard."
+      ],
       stack: ["React JS", "Express", "MySQL", "Tailwind Css"],
       imageIndexes: [4, 5, 6],
       infoLeft: "160vw", infoTop: "29vh",
@@ -632,6 +646,11 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
       title: "LingoChat",
       year: null,
       desc: "A real-time chat application enhanced with automatic translation and autocorrect features, powered by statistical language modeling and the Google Translate API to enable seamless cross-language communication.",
+      descLines: [
+        "A real-time chat application with auto translation",
+        "and autocorrect features, powered by statistical language",
+        "modeling and the Google Translate API for communication."
+      ],
       stack: ["React JS", "Express", "MySQL", "Bootstrap"],
       imageIndexes: [7, 8, 9],
       infoLeft: "268vw", infoTop: "25vh",
@@ -641,6 +660,11 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
       title: "Rest API VidioMeet",
       year: null,
       desc: "A RESTful API powering a real-time video conferencing platform with core features including room creation, participant management, real-time communication, and a subscription system for premium access control.",
+      descLines: [
+        "A RESTful API powering a video conferencing platform",
+        "with room creation, participant management, real-time",
+        "communication, and premium subscription access control."
+      ],
       stack: ["Node JS", "Express", "MySQL", "Postman"],
       imageIndexes: [10, 11, 12, 13, 14],
       infoLeft: "430vw", infoTop: "32vh",
@@ -698,7 +722,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
           padding: "3px 8px",
           border: isMobile ? `0.5px solid ${mobileBadgeBorderColor}` : `0.5px solid ${isDark ? "#b8ad9e" : "rgba(255,255,255,0.3)"}`,
           color: isMobile ? mobileBadgeTextColor : (isDark ? "#555555" : "rgba(255,255,255,0.7)"),
-          borderRadius: 4,
+          borderRadius: 2,
           letterSpacing: "0.08em",
           textTransform: "uppercase",
           whiteSpace: "nowrap",
@@ -935,6 +959,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
   </div>
 </div>
 
+
           {/* Scene 3 — Bio block (sama persis dengan desktop, pakai IntersectionObserver) */}
           <MobileScene3 />
 
@@ -963,12 +988,12 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                               width: "100%",
                               height: "auto",
                               display: "block",
-                              borderRadius: 6,
+                              borderRadius: 2,
                               boxShadow: "0 4px 16px rgba(0,0,0,0.3)"
                             }}
                           />
                         ) : (
-                          <div style={{ width: "100%", aspectRatio: "16/10", background: "#1a1a1a", borderRadius: 6 }} />
+                          <div style={{ width: "100%", aspectRatio: "16/10", background: "#1a1a1a", borderRadius: 2 }} />
                         )}
                       </div>
                     );
@@ -977,10 +1002,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                 <p style={{ margin:"0 0 8px", fontSize:"clamp(1.1rem,1.8vw,1.6rem)", color: mobileTextColor, fontFamily:"'Bebas Neue', sans-serif", fontWeight:700, letterSpacing:"0.05em" }}>
                   {proj.title}
                 </p>
-                {proj.year && (
-                  <p style={{ margin:"0 0 8px", fontSize:"clamp(0.65rem,0.85vw,0.85rem)", color: mobileYearColor, letterSpacing:"0.08em" }}>{proj.year}</p>
-                )}
-                <p style={{ margin:0, fontSize:"clamp(0.75rem,1.0vw,0.9rem)", color: mobileDescColor, lineHeight:1.75, letterSpacing:"0.02em" }}>
+                <p style={{ margin:0, fontSize:"clamp(0.8rem,1.1vw,1.15rem)", color: mobileDescColor, fontFamily:"'Bebas Neue', sans-serif", lineHeight:1.35, letterSpacing:"0.05em" }}>
                   {proj.desc}
                 </p>
                 <StackBadges stack={proj.stack} />
@@ -1030,7 +1052,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
             </div>
             <div style={{ marginTop:"1.5rem" }}>
               <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noopener noreferrer"
-                style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#b4ff50", color:"#0a0a0a", fontSize:"0.75rem", fontWeight:700, padding:"10px 20px", borderRadius:99, textDecoration:"none", letterSpacing:"0.04em" }}>
+                style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#f5f0e8", color:"#0a0a0a", fontSize:"0.75rem", fontWeight:700, padding:"10px 20px", borderRadius:99, textDecoration:"none", letterSpacing:"0.04em" }}>
                 GITHUB PROFILE ↗
               </a>
             </div>
@@ -1172,7 +1194,17 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
             </div>
 
             {/* Scene 4 — Gallery DESKTOP */}
-            <div style={{ height:"100vh", minHeight:"100vh", background:galleryBg, overflow:"hidden", position:"relative", display:"flex", flexDirection:"column", justifyContent:"center" }}>
+            <div style={{
+              height: "100vh",
+              minHeight: "100vh",
+              background: galleryBg,
+              overflow: "hidden",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center"
+            }}>
+              {/* Header Label (Project Portfolio / 2023 - 2024) */}
               <div style={{ position:"absolute", top:"clamp(60px,8vh,80px)", left:"clamp(1.5rem,6vw,5rem)", right:"clamp(1.5rem,6vw,5rem)", display:"flex", alignItems:"center", justifyContent:"space-between", zIndex:10 }}>
                 <div style={{ display:"flex", alignItems:"center", gap:"clamp(10px,1.2vw,20px)" }}>
                   <span style={{ fontSize:"clamp(0.75rem,0.9vw,1.1rem)", textTransform:"uppercase", letterSpacing:"0.3em", color:labelColor, fontWeight:600 }}>Project Portfolio</span>
@@ -1181,33 +1213,177 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                 </div>
               </div>
 
-              {GALLERY_ITEMS.slice(0,15).map((item, i) => {
-                const s = SCATTER[i];
-                const shiftX = scrollShift * s.speed;
-                const infoData = PROJECT_INFO_BY_INDEX[i];
-                return (
-                  <div key={item.id + "-" + i}>
-                    <div style={{ position:"absolute", top:s.top, left:`calc(${s.left} - ${shiftX}vw)`, width:s.w, height:"35vh", overflow:"hidden", willChange:"left", zIndex:s.z, transform:`rotate(${s.rotate}deg)`, boxShadow:"0 8px 32px rgba(0,0,0,0.15)" }}>
-                      {item.img
-                        ? <img src={item.img} alt={item.title} style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"top center", display:"block" }}/>
-                        : <div style={{ width:"100%", height:"100%", background:"#111" }}/>
-                      }
-                    </div>
-                    {infoData?.isFirst && (
-                      <div style={{ position:"absolute", top:infoData.infoTop, left:`calc(${infoData.infoLeft} - ${shiftX}vw)`, width:"clamp(160px, 28vw, 320px)", zIndex:999 }}>
-                        <p style={{ margin:"0 0 8px", fontSize:"clamp(1.1rem,1.0vw,0.9rem)", color:infoData.title === "Rest API VidioMeet" ? "#0f0f0f" : "#ffffff", fontFamily:"'Instrument Serif'", fontWeight:700, letterSpacing:"0.05em" }}>{infoData.title}</p>
-                        <p style={{ margin:0,fontFamily:"'Bebas Neue', sans-serif", fontSize:"clamp(0.75rem,1.0vw, 0.9rem)", color:infoData.title === "Rest API VidioMeet" ? "#333333" : "rgba(255,255,255,0.65)", lineHeight:1.75, letterSpacing:"0.02em" }}>{infoData.desc}</p>
-                        <StackBadges stack={infoData.stack} isDark={infoData.title === "Rest API VidioMeet"} />
+              {/* Horizontal Scroll Track */}
+              <div style={{
+                display: "flex",
+                transform: `translateX(${-p4 * 18.857}vw)`,
+                paddingLeft: "10vw",
+                willChange: "transform",
+                transition: "transform 0.1s ease-out"
+              }}>
+                {PROJECTS.map((proj, idx) => {
+                  const mainImg = GALLERY_ITEMS[proj.imageIndexes[0]]?.img;
+                  const subImg1 = GALLERY_ITEMS[proj.imageIndexes[1]]?.img;
+                  const subImg2 = GALLERY_ITEMS[proj.imageIndexes[2]]?.img;
+                  const isDarkTheme = proj.title === "Rest API VidioMeet";
+                  const textColor = isDarkTheme ? "#0f0f0f" : "#ffffff";
+                  const descColor = isDarkTheme ? "#333333" : "rgba(255,255,255,0.7)";
+
+                  return (
+                    <div key={proj.title} style={{
+                      width: "80vw",
+                      height: "65vh",
+                      display: "flex",
+                      gap: "4vw",
+                      alignItems: "center",
+                      boxSizing: "border-box",
+                      marginRight: "8vw",
+                      flexShrink: 0
+                    }}>
+                      {/* LEFT — Main Visual Image */}
+                      {mainImg ? (
+                        <img
+                          src={mainImg}
+                          alt={proj.title}
+                          style={{
+                            width: "46vw",
+                            height: "auto",
+                            borderRadius: "2px",
+                            boxShadow: "0 12px 40px rgba(0,0,0,0.25)",
+                            display: "block",
+                            flexShrink: 0
+                          }}
+                        />
+                      ) : (
+                        <div style={{ width: "46vw", aspectRatio: "16/9", background: "#111", borderRadius: "2px" }} />
+                      )}
+
+                      {/* RIGHT — Info & Sub-images */}
+                      <div style={{
+                        width: "30vw",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        boxSizing: "border-box"
+                      }}>
+                        {/* Top: Two small screenshots side-by-side */}
+                        <div style={{ display: "flex", gap: "1.5vw" }}>
+                          {[subImg1, subImg2].map((imgUrl, i) => (
+                            <div key={i} style={{ flex: 1 }}>
+                              {imgUrl ? (
+                                <img
+                                  src={imgUrl}
+                                  alt={`Screenshot ${i+1}`}
+                                  style={{
+                                    width: "100%",
+                                    height: "auto",
+                                    borderRadius: "2px",
+                                    boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+                                    display: "block"
+                                  }}
+                                />
+                              ) : (
+                                <div style={{ width: "100%", aspectRatio: "16/9", background: "#222", borderRadius: "2px" }} />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Middle: Title & Description & Tech Stack Badges */}
+                        <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", margin: "2vh 0" }}>
+                          {(() => {
+                            const p4_raw = maxP - 3;
+                            const focusP4 = idx * 4.5;
+                            const titleStart = idx === 0 ? 0.15 : (focusP4 - 0.6);
+                            const titleProgress = Math.min(1, Math.max(0, (p4_raw - titleStart) / 1.0));
+                            const t1 = ease(Math.min(1, titleProgress * 2.08));
+                            const t2 = ease(Math.min(1, Math.max(0, titleProgress * 2.08 - 1.15)));
+                            const tBlockX = t2 > 0 ? t2 * 100 : -100 + t1 * 100;
+                            const tTextY = t2 > 0 ? 105 - t2 * 105 : 105;
+
+                            const descStart = idx === 0 ? 0.45 : (focusP4 - 0.3);
+                            const descProgress = Math.min(1, Math.max(0, (p4_raw - descStart) / 1.0));
+                            const d1 = ease(Math.min(1, descProgress * 2.08));
+                            const d2 = ease(Math.min(1, Math.max(0, descProgress * 2.08 - 1.15)));
+                            const dBlockX = d2 > 0 ? d2 * 100 : -100 + d1 * 100;
+                            const dTextY = d2 > 0 ? 105 - d2 * 105 : 105;
+
+                            return (
+                              <>
+                                <span style={{ display: "block", overflow: "hidden", position: "relative", marginBottom: "12px", width: "max-content" }}>
+                                  <p style={{
+                                    margin: 0,
+                                    fontSize: "clamp(1.5rem, 2.5vw, 2.2rem)",
+                                    color: textColor,
+                                    fontFamily: "'Bebas Neue', sans-serif",
+                                    fontWeight: 700,
+                                    letterSpacing: "0.05em",
+                                    transform: `translateY(${tTextY}%)`,
+                                    willChange: "transform"
+                                  }}>
+                                    {proj.title}
+                                  </p>
+                                  <span style={{ position: "absolute", top: 0, bottom: 0, left: "-5%", right: "-5%", background: "#f5f0e8", transform: `translateX(${tBlockX}%)`, willChange: "transform", zIndex: 3 }}/>
+                                </span>
+
+                                {proj.descLines.map((line, lineIdx) => {
+                                  const lineStart = descStart + lineIdx * 0.12;
+                                  const lineProgress = Math.min(1, Math.max(0, (p4_raw - lineStart) / 1.0));
+                                  const ld1 = ease(Math.min(1, lineProgress * 2.08));
+                                  const ld2 = ease(Math.min(1, Math.max(0, lineProgress * 2.08 - 1.15)));
+                                  const ldBlockX = ld2 > 0 ? ld2 * 100 : -100 + ld1 * 100;
+                                  const ldTextY = ld2 > 0 ? 105 - ld2 * 105 : 105;
+
+                                  return (
+                                    <div key={lineIdx} style={{ display: "flex", margin: 0, padding: 0 }}>
+                                      <span style={{ display: "block", overflow: "hidden", position: "relative", width: "max-content", margin: 0, padding: 0 }}>
+                                        <p style={{
+                                          margin: 0,
+                                          padding: 0,
+                                          fontSize: "clamp(0.8rem, 1.1vw, 1.15rem)",
+                                          color: descColor,
+                                          fontFamily: "'Bebas Neue', sans-serif",
+                                          lineHeight: 1.3,
+                                          letterSpacing: "0.05em",
+                                          transform: `translateY(${ldTextY}%)`,
+                                          willChange: "transform"
+                                        }}>
+                                          {line}
+                                        </p>
+                                        <span style={{ position: "absolute", top: 0, bottom: 0, left: "-5%", right: "-5%", background: "#f5f0e8", transform: `translateX(${ldBlockX}%)`, willChange: "transform", zIndex: 3 }}/>
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+
+                                {(() => {
+                                  const stackStart = descStart + proj.descLines.length * 0.12;
+                                  const stackProgress = Math.min(1, Math.max(0, (p4_raw - stackStart) / 1.0));
+                                  const sd1 = ease(Math.min(1, stackProgress * 2.08));
+                                  const sd2 = ease(Math.min(1, Math.max(0, stackProgress * 2.08 - 1.15)));
+                                  const sdBlockX = sd2 > 0 ? sd2 * 100 : -100 + sd1 * 100;
+                                  const sdTextY = sd2 > 0 ? 105 - sd2 * 105 : 105;
+
+                                  return (
+                                    <span style={{ display: "block", overflow: "hidden", position: "relative", width: "max-content", marginTop: "12px" }}>
+                                      <div style={{ transform: `translateY(${sdTextY}%)`, willChange: "transform" }}>
+                                        <StackBadges stack={proj.stack} isDark={isDarkTheme} />
+                                      </div>
+                                      <span style={{ position: "absolute", top: 0, bottom: 0, left: "-5%", right: "-5%", background: "#f5f0e8", transform: `translateX(${sdBlockX}%)`, willChange: "transform", zIndex: 3 }}/>
+                                    </span>
+                                  );
+                                })()}
+                              </>
+                            );
+                          })()}
+                        </div>
+
+
                       </div>
-                    )}
-                    {infoData?.isFirst && infoData?.year && (
-                      <p style={{ position:"absolute", top:infoData.yearTop, left:`calc(${infoData.yearLeft} - ${shiftX}vw)`, fontSize:"clamp(0.65rem,0.85vw,0.85rem)", color:infoData.title === "Rest API VidioMeet" ? "#666666" : "rgba(255,255,255,0.45)", letterSpacing:"0.08em", margin:0, zIndex:999 }}>
-                        {infoData.year}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Scene 5 — Experience DESKTOP */}
@@ -1337,7 +1513,7 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
                 </div>
                 <div style={{ textAlign:"right", display:"flex", flexDirection:"column", alignItems:"flex-end", gap:10 }}>
                   <p style={{ margin:0, fontSize:"0.75rem", color:"#333", lineHeight:1.7, maxWidth:200 }}>Building in public,<br/>one commit at a time.</p>
-                  <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#b4ff50", color:"#0a0a0a", fontSize:"0.75rem", fontWeight:700, padding:"10px 20px", borderRadius:99, textDecoration:"none", letterSpacing:"0.04em" }}>
+                  <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, background:"#f5f0e8", color:"#0a0a0a", fontSize:"0.75rem", fontWeight:700, padding:"10px 20px", borderRadius:99, textDecoration:"none", letterSpacing:"0.04em" }}>
                     GITHUB PROFILE ↗
                   </a>
                 </div>
