@@ -1575,9 +1575,9 @@ const cardCenterAbsolute = switchThreshold + (0.5 - p1AtSwitch * 0.25) * vh;
               <div style={{ fontSize:"clamp(3.6rem,10vw,11rem)", fontWeight:900, letterSpacing:"-0.04em", lineHeight:0.9, color:"#d4cfc8", userSelect:"none", marginBottom:"clamp(0.8rem,2.5vh,1.8rem)" }}>Naufal</div>
               <p style={{ color:"#888", fontSize:"clamp(0.85rem,1.5vw,1.05rem)", lineHeight:1.65, margin:"0 0 1.6rem", maxWidth:400 }}>Backend Engineer &amp;<br/>scalable digital systems.</p>
               <div style={{ display:"flex", gap:24, justifyContent:"center", opacity:1-p1*1.5 }}>
-                {["Twitter","LinkedIn","GitHub"].map(s => (
-                  <a key={s} href="#" style={{ fontSize:"0.6rem", color:"#aaa", textTransform:"uppercase", letterSpacing:"0.18em", textDecoration:"none" }}>{s}</a>
-                ))}
+                {SOCIAL_LINKS.map(({ name, url }) => (
+  <a key={name} href={url} target="_blank" rel="noopener noreferrer" style={{ fontSize:"0.6rem", color:"#aaa", textTransform:"uppercase", letterSpacing:"0.18em", textDecoration:"none" }}>{name}</a>
+))}
               </div>
             </div>
             <div style={{ position:"absolute", bottom:14, left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:6, opacity:p1<0.04?1:0, transition:"opacity 0.4s", pointerEvents:"none" }}>
